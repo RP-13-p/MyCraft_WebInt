@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCraft - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NavBar -->
+    <header class="topbar">
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">☰</button>
+        <h1 class="logo">My Craft</h1>
+        <button id="profile-btn" class="icon-btn" aria-label="Profil">P</button>
+    </header>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">DashBoard</a></li>
+                    <li><a href="#">Quotes</a></li>
+                    <li><a href="#">Invoices</a></li>
+                    <li><a href="#">Clients</a></li>
+                    <li><a href="#">Catalogue</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Line 1 : Stats -->
+            <section class="grid-row top-stats">
+                <article class="card circle-card">
+                    <p>01/05/2026</p>
+                    <p>19h30</p>
+                </article>
+                <article class="card">
+                    <h2>Revenue (month)</h2>
+                    <p class="data">5000.0 €</p>
+                </article>
+                <article class="card">
+                    <h2>Profit/Loss (month)</h2>
+                    <p class="data">+ 3000.0 €</p>
+                </article>
+                <article class="card">
+                    <h2>Total interventions<br>(month)</h2>
+                    <p class="data">60</p>
+                </article>
+            </section>
+
+            <!-- Line 2 : Actions et Alerts -->
+            <section class="grid-row bottom-actions">
+                <article class="card warning-card">
+                    <h2>Warning!</h2>
+                    <ul>
+                        <li>Devis client A</li>
+                        <li>Facture en retard</li>
+                        <li>Relance B</li>
+                        <li>Matériel manquant</li>
+                    </ul>
+                </article>
+                
+                <article class="card action-card">
+                    <h2>New Quote</h2>
+                    <button class="big-btn">+</button>
+                </article>
+                
+                <article class="card action-card">
+                    <h2>New Invoice</h2>
+                    <button class="big-btn">+</button>
+                </article>
+                
+                <article class="card action-card export-card">
+                    <h2>Export results</h2>
+                    <button class="big-btn">|-></button>
+                    <div class="export-formats">
+                        <span>pdf</span> / <span>xls</span>
+                    </div>
+                </article>
+            </section>
+    
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2026 MyCraft </p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>

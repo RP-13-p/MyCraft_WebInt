@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCraft - Paramètres Compte</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NavBar -->
+    <header class="topbar">
+        <a href="index.html" class="icon-btn" aria-label="Retour">←</a>
+        <h1 class="logo">My Craft</h1>
+        <button class="icon-btn" aria-label="Profil" style="visibility:hidden;">P</button>
+    </header>
+
+    <div class="app-layout">
+        <!-- Main Content -->
+        <main class="main-content settings-content">
+            <h1>Paramètres du Compte</h1>
+            
+            <!-- Section Informations Personnelles -->
+            <section class="settings-section">
+                <h2>Informations Personnelles</h2>
+                <div class="settings-group">
+                    <div class="settings-item">
+                        <label>Nom d'utilisateur :</label>
+                        <p class="settings-value">Artisan Pro</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>Email :</label>
+                        <p class="settings-value">contact@craft.fr</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>Téléphone :</label>
+                        <p class="settings-value">+33 6 12 34 56 78</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>Adresse :</label>
+                        <p class="settings-value">123 rue d'Eurecom, Sophia Antipolis</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Entreprise -->
+            <section class="settings-section">
+                <h2>Informations Entreprise</h2>
+                <div class="settings-group">
+                    <div class="settings-item">
+                        <label>Nom Entreprise :</label>
+                        <p class="settings-value">Artisan Pro SARL</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>SIRET :</label>
+                        <p class="settings-value">12345678901234</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>Secteur d'activité :</label>
+                        <p class="settings-value">Menuiserie / Ébénisterie</p>
+                    </div>
+                    <div class="settings-item">
+                        <label>Nombre d'employés :</label>
+                        <p class="settings-value">5</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Sécurité -->
+            <section class="settings-section">
+                <h2>Sécurité</h2>
+                <div class="settings-group">
+                    <button class="settings-btn">Changer le mot de passe</button>
+                    <button class="settings-btn">Authentification à deux facteurs</button>
+                </div>
+            </section>
+
+            <!-- Section Préférences -->
+            <section class="settings-section">
+                <h2>Préférences</h2>
+                <div class="settings-group">
+                    <div class="settings-item checkbox-item">
+                        <input type="checkbox" id="email-notifications" checked>
+                        <label for="email-notifications">Notifications par email</label>
+                    </div>
+                    <div class="settings-item checkbox-item">
+                        <input type="checkbox" id="sms-notifications">
+                        <label for="sms-notifications">Notifications par SMS</label>
+                    </div>
+                    <div class="settings-item checkbox-item">
+                        <input type="checkbox" id="news" checked>
+                        <label for="news">Recevoir les actualités</label>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MyCraft</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
