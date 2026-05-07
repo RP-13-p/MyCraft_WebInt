@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCraft - Factures</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">☰</button>
+        <h1 class="logo">My Craft</h1>
+        <button id="profile-btn" class="icon-btn" aria-label="Profil">P</button>
+    </header>
+
+    <div class="app-layout">
+
+        <aside id="sidebar" class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html">DashBoard</a></li>
+                    <li><a href="quotes.html">Quotes</a></li>
+                    <li><a href="invoices.html" class="active">Invoices</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="catalog.html">Catalogue</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content page-content">
+
+            <section class="page-header">
+                <h1>Factures</h1>
+                <button>+ Nouvelle facture</button>
+            </section>
+
+            <!-- Formulaire de création -->
+            <section id="invoice-form-section">
+                <h2>Nouvelle facture</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="invoice-client">Client *</label>
+                        <input type="text" id="invoice-client" placeholder="Nom du client">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-date">Date</label>
+                        <input type="date" id="invoice-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-due">Échéance</label>
+                        <input type="date" id="invoice-due">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-status">Statut</label>
+                        <select id="invoice-status">
+                            <option value="Envoyée">Envoyée</option>
+                            <option value="Payée">Payée</option>
+                            <option value="En retard">En retard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3>Lignes de prestation</h3>
+                <div class="lines-header">
+                    <span>Description</span>
+                    <span>Qté</span>
+                    <span>Prix HT (€)</span>
+                    <span>TVA (%)</span>
+                    <span>Total HT</span>
+                    <span></span>
+                </div>
+
+                <!-- Exemple de ligne statique -->
+                <div class="quote-line">
+                    <input type="text"   placeholder="Description">
+                    <input type="number" value="1" min="0" step="0.5">
+                    <input type="number" value="0" min="0" step="0.01">
+                    <select>
+                        <option>20%</option>
+                        <option>10%</option>
+                        <option>5,5%</option>
+                        <option>0%</option>
+                    </select>
+                    <span>0,00 €</span>
+                    <button>✕</button>
+                </div>
+
+                <button>+ Ajouter une ligne</button>
+
+                <div class="totals-section">
+                    <p>Total HT : <span>0,00 €</span></p>
+                    <p>Total TVA : <span>0,00 €</span></p>
+                    <p><strong>Total TTC : <span>0,00 €</span></strong></p>
+                </div>
+
+                <div class="form-actions">
+                    <button>Enregistrer</button>
+                    <button>Annuler</button>
+                </div>
+            </section>
+
+            <!-- Liste des factures -->
+            <section class="list-section">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>N° Facture</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Échéance</th>
+                            <th>Total TTC</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FAC-0001</td>
+                            <td>Dupont Jean</td>
+                            <td>2026-05-07</td>
+                            <td>2026-06-07</td>
+                            <td>1 200,00 €</td>
+                            <td>Envoyée</td>
+                            <td><button>Modifier</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MyCraft</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
