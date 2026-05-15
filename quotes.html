@@ -33,7 +33,7 @@
 
             <section class="page-header">
                 <h1>Devis</h1>
-                <button>+ Nouveau devis</button>
+                <button type="button" id="new-quote-btn">+ Nouveau devis</button>
             </section>
 
             <!-- Formulaire de création -->
@@ -74,32 +74,20 @@
                     <span></span>
                 </div>
 
-                <!-- Exemple de ligne statique -->
-                <div class="quote-line">
-                    <input type="text"   placeholder="Description">
-                    <input type="number" value="1" min="0" step="0.5">
-                    <input type="number" value="0" min="0" step="0.01">
-                    <select>
-                        <option>20%</option>
-                        <option>10%</option>
-                        <option>5,5%</option>
-                        <option>0%</option>
-                    </select>
-                    <span>0,00 €</span>
-                    <button>✕</button>
-                </div>
+                <!-- Les lignes sont ajoutées ici par quotes.js -->
+                <div id="quote-lines"></div>
 
-                <button>+ Ajouter une ligne</button>
+                <button type="button" id="add-line-btn">+ Ajouter une ligne</button>
 
                 <div class="totals-section">
-                    <p>Total HT : <span>0,00 €</span></p>
-                    <p>Total TVA : <span>0,00 €</span></p>
-                    <p><strong>Total TTC : <span>0,00 €</span></strong></p>
+                    <p>Total HT : <span id="total-ht">0,00 €</span></p>
+                    <p>Total TVA : <span id="total-tva">0,00 €</span></p>
+                    <p><strong>Total TTC : <span id="total-ttc">0,00 €</span></strong></p>
                 </div>
 
                 <div class="form-actions">
-                    <button>Enregistrer</button>
-                    <button>Annuler</button>
+                    <button type="button" id="save-quote-btn">Enregistrer</button>
+                    <button type="button" id="cancel-quote-btn">Annuler</button>
                 </div>
             </section>
 
@@ -116,17 +104,10 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>DEV-0001</td>
-                            <td>Dupont Jean</td>
-                            <td>2026-05-07</td>
-                            <td>1 200,00 €</td>
-                            <td>Brouillon</td>
-                            <td><button>Modifier</button></td>
-                        </tr>
-                    </tbody>
+                    <!-- Les lignes du tableau sont générées par quotes.js -->
+                    <tbody id="quotes-tbody"></tbody>
                 </table>
+                <p class="empty-msg" id="quotes-empty">Aucun devis enregistré pour le moment.</p>
             </section>
 
         </main>
@@ -136,6 +117,8 @@
         <p>&copy; 2026 MyCraft</p>
     </footer>
 
+    <script src="store.js"></script>
     <script src="app.js"></script>
+    <script src="quotes.js"></script>
 </body>
 </html>
