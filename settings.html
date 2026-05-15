@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCraft - Paramètres Compte</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <!-- NavBar -->
     <header class="topbar">
         <a href="index.html" class="icon-btn" aria-label="Retour">←</a>
@@ -15,29 +16,30 @@
     </header>
 
     <div class="app-layout">
+
         <!-- Main Content -->
         <main class="main-content settings-content">
             <h1>Paramètres du Compte</h1>
-            
+
             <!-- Section Informations Personnelles -->
             <section class="settings-section">
                 <h2>Informations Personnelles</h2>
                 <div class="settings-group">
                     <div class="settings-item">
-                        <label>Nom d'utilisateur :</label>
-                        <p class="settings-value">Artisan Pro</p>
+                        <label for="set-username">Nom d'utilisateur :</label>
+                        <input type="text" id="set-username" class="settings-input" value="Artisan Pro">
                     </div>
                     <div class="settings-item">
-                        <label>Email :</label>
-                        <p class="settings-value">contact@craft.fr</p>
+                        <label for="set-email">Email :</label>
+                        <input type="email" id="set-email" class="settings-input" value="contact@craft.fr">
                     </div>
                     <div class="settings-item">
-                        <label>Téléphone :</label>
-                        <p class="settings-value">+33 6 12 34 56 78</p>
+                        <label for="set-phone">Téléphone :</label>
+                        <input type="tel" id="set-phone" class="settings-input" value="+33 6 12 34 56 78">
                     </div>
                     <div class="settings-item">
-                        <label>Adresse :</label>
-                        <p class="settings-value">123 rue d'Eurecom, Sophia Antipolis</p>
+                        <label for="set-address">Adresse :</label>
+                        <input type="text" id="set-address" class="settings-input" value="123 rue d'Eurecom, Sophia Antipolis">
                     </div>
                 </div>
             </section>
@@ -47,20 +49,20 @@
                 <h2>Informations Entreprise</h2>
                 <div class="settings-group">
                     <div class="settings-item">
-                        <label>Nom Entreprise :</label>
-                        <p class="settings-value">Artisan Pro SARL</p>
+                        <label for="set-company">Nom Entreprise :</label>
+                        <input type="text" id="set-company" class="settings-input" value="Artisan Pro SARL">
                     </div>
                     <div class="settings-item">
-                        <label>SIRET :</label>
-                        <p class="settings-value">12345678901234</p>
+                        <label for="set-siret">SIRET :</label>
+                        <input type="text" id="set-siret" class="settings-input" value="12345678901234">
                     </div>
                     <div class="settings-item">
-                        <label>Secteur d'activité :</label>
-                        <p class="settings-value">Menuiserie / Ébénisterie</p>
+                        <label for="set-sector">Secteur d'activité :</label>
+                        <input type="text" id="set-sector" class="settings-input" value="Menuiserie / Ébénisterie">
                     </div>
                     <div class="settings-item">
-                        <label>Nombre d'employés :</label>
-                        <p class="settings-value">5</p>
+                        <label for="set-employees">Nombre d'employés :</label>
+                        <input type="number" id="set-employees" class="settings-input" value="5" min="0">
                     </div>
                 </div>
             </section>
@@ -69,8 +71,8 @@
             <section class="settings-section">
                 <h2>Sécurité</h2>
                 <div class="settings-group">
-                    <button class="settings-btn">Changer le mot de passe</button>
-                    <button class="settings-btn">Authentification à deux facteurs</button>
+                    <button type="button" class="settings-btn">Changer le mot de passe</button>
+                    <button type="button" class="settings-btn">Authentification à deux facteurs</button>
                 </div>
             </section>
 
@@ -93,12 +95,21 @@
                 </div>
             </section>
 
+            <!-- Bouton d'enregistrement -->
+            <div class="settings-actions">
+                <button type="button" id="save-settings-btn" class="settings-btn">Enregistrer les modifications</button>
+                <p id="settings-saved-msg" class="saved-msg">Modifications enregistrées ✓</p>
+            </div>
+
         </main>
     </div>
 
     <footer>
         <p>&copy; 2026 MyCraft</p>
     </footer>
+
+    <script src="store.js"></script>
     <script src="app.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>

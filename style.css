@@ -424,3 +424,33 @@ footer {
     margin-top: 25px;
     font-size: 14px;
 }
+/* ---- Ajouts : champs editables de la page Settings ---- */
+.settings-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 15px;
+    min-width: 280px;
+}
+
+.settings-actions {
+    margin-top: 10px;
+}
+
+.saved-msg {
+    display: none;
+    color: #1a7f37;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* ---- Ajouts : page Clients (meme principe que #quote-form-section) ---- */
+#client-form-section {
+    margin-bottom: 30px;
+}
+
+#client-form-section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #1e03cb;
+}
