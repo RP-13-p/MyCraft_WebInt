@@ -11,7 +11,7 @@
     <header class="topbar">
         <button id="menu-btn" class="icon-btn" aria-label="Menu">☰</button>
         <h1 class="logo">My Craft</h1>
-        <button id="profile-btn" class="icon-btn" aria-label="Profil">P</button>
+        <button id="profile-btn" class="icon-btn" aria-label="Profil"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M4 22c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>
     </header>
 
     <div class="app-layout">
@@ -29,67 +29,38 @@
             </nav>
         </aside>
 
-        <main class="main-content page-content">
+        <main class="main-content">
 
-            <section class="page-header">
-                <h1>Clients</h1>
-                <button type="button" id="new-client-btn">+ Nouveau client</button>
+            <section class="cards-row">
+                <article class="card">
+                    <h2>Number of Clients</h2>
+                    <p class="data" id="clients-count">0</p>
+                </article>
+                <article class="card action-card">
+                    <h2>New Client</h2>
+                    <button id="new-client-btn" class="avatar-btn">
+                        <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="8" r="5"/>
+                            <line x1="12" y1="5" x2="12" y2="11"/>
+                            <line x1="9" y1="8" x2="15" y2="8"/>
+                            <path d="M4 22c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                    </button>
+                </article>
             </section>
 
-            <!-- Formulaire de création -->
-            <section id="client-form-section">
-                <h2>Nouveau client</h2>
+            <hr class="section-separator">
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="client-name">Nom *</label>
-                        <input type="text" id="client-name" placeholder="Nom du client">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-type">Type</label>
-                        <select id="client-type">
-                            <option value="Particulier">Particulier</option>
-                            <option value="Professionnel">Professionnel</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="client-email">Email</label>
-                        <input type="email" id="client-email" placeholder="email@exemple.fr">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-phone">Téléphone</label>
-                        <input type="tel" id="client-phone" placeholder="+33 6 12 34 56 78">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-address">Adresse</label>
-                        <input type="text" id="client-address" placeholder="Adresse du client">
-                    </div>
-                </div>
+            <div class="search-bar">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#888" stroke-width="2">
+                    <circle cx="11" cy="11" r="7"/>
+                    <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                </svg>
+                <input type="text" id="client-search" placeholder="Search...">
+            </div>
 
-                <div class="form-actions">
-                    <button type="button" id="save-client-btn">Enregistrer</button>
-                    <button type="button" id="cancel-client-btn">Annuler</button>
-                </div>
-            </section>
-
-            <!-- Liste des clients -->
-            <section class="list-section">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Email</th>
-                            <th>Téléphone</th>
-                            <th>Adresse</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <!-- Les lignes du tableau sont générées par clients.js -->
-                    <tbody id="clients-tbody"></tbody>
-                </table>
-                <p class="empty-msg" id="clients-empty">Aucun client enregistré pour le moment.</p>
-            </section>
+            <div id="clients-grid" class="clients-grid"></div>
+            <p class="empty-msg" id="clients-empty">Aucun client enregistré pour le moment.</p>
 
         </main>
     </div>
@@ -98,8 +69,8 @@
         <p>&copy; 2026 MyCraft</p>
     </footer>
 
-    <script src="store.js"></script>
-    <script src="app.js"></script>
-    <script src="clients.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/clients.js"></script>
 </body>
 </html>

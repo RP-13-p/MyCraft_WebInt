@@ -1,4 +1,3 @@
-// settings.js
 // Handles the Settings page.
 // On page load  : fill the form fields with data saved in localStorage.
 // On save click : read all fields and save them to localStorage.

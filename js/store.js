@@ -1,4 +1,3 @@
-// store.js
 // Small shared helper to read and write data in the browser localStorage.
 // Load this file BEFORE the other scripts on each page.
 

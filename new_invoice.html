@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCraft - Nouvelle facture</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <button id="menu-btn" class="icon-btn" aria-label="Menu">☰</button>
+        <h1 class="logo">My Craft</h1>
+        <button id="profile-btn" class="icon-btn" aria-label="Profil"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M4 22c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>
+    </header>
+
+    <div class="app-layout">
+
+        <aside id="sidebar" class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html">DashBoard</a></li>
+                    <li><a href="quotes.html">Quotes</a></li>
+                    <li><a href="invoices.html" class="active">Invoices</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="catalog.html">Catalogue</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content page-content">
+
+            <section class="page-header">
+                <h1>Nouvelle facture</h1>
+            </section>
+
+            <section id="invoice-form-section">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="invoice-client">Client *</label>
+                        <input type="text" id="invoice-client" placeholder="Nom du client">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-date">Date</label>
+                        <input type="date" id="invoice-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-due">Échéance</label>
+                        <input type="date" id="invoice-due">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoice-status">Statut</label>
+                        <select id="invoice-status">
+                            <option value="Envoyée">Envoyée</option>
+                            <option value="Payée">Payée</option>
+                            <option value="En retard">En retard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3>Lignes de prestation</h3>
+                <div class="lines-header">
+                    <span>Description</span>
+                    <span>Qté</span>
+                    <span>Prix HT (€)</span>
+                    <span>TVA (%)</span>
+                    <span>Total HT</span>
+                    <span></span>
+                </div>
+
+                <div id="invoice-lines"></div>
+
+                <button type="button" id="add-line-btn">+ Ajouter une ligne</button>
+
+                <div class="totals-section">
+                    <p>Total HT : <span id="total-ht">0,00 €</span></p>
+                    <p>Total TVA : <span id="total-tva">0,00 €</span></p>
+                    <p><strong>Total TTC : <span id="total-ttc">0,00 €</span></strong></p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="save-invoice-btn">Enregistrer</button>
+                    <button type="button" id="cancel-invoice-btn">Annuler</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MyCraft</p>
+    </footer>
+
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/new_invoice.js"></script>
+</body>
+</html>
