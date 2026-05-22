@@ -1,8 +1,4 @@
-// Small shared helper to read and write data in the browser localStorage.
-// Load this file BEFORE the other scripts on each page.
-
-// Save any value (object, array, string...) with a given key.
-// localStorage can only store text, so we convert the value to JSON first.
+// Utility functions to save and load data from localStorage
 function saveData(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }

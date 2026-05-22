@@ -36,18 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyMsg.style.display = found ? 'none' : 'block';
     }
 
-    function seedExample() {
-        if (localStorage.getItem('mycraft_clients') === null) {
-            const example = [{
-                name:    'Dupont Jean',
-                type:    'Particulier',
-                email:   'jean.dupont@email.fr',
-                phone:   '+33 6 11 22 33 44',
-                address: '12 avenue des Tilleuls, Antibes'
-            }];
-            saveData('mycraft_clients', example);
-        }
-    }
 
     if (newBtn) {
         newBtn.addEventListener('click', () => {

@@ -32,8 +32,11 @@ a {
 }
 
 .logo {
-    font-weight: normal;
-    font-size: 24px;
+    cursor: pointer;
+}
+
+.logo img {
+    height: 50px;
 }
 
 .icon-btn {
@@ -544,4 +547,27 @@ footer {
 
 .action-icons {
     white-space: nowrap;
+}
+
+.search-filter-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.search-filter-row .search-bar {
+    flex: 1;
+    max-width: none;
+    margin: 0;
+}
+
+.category-filter {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    outline: none;
 }

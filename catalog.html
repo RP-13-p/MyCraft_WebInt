@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCraft - Factures</title>
+    <title>MyCraft - Catalogue</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,9 +21,9 @@
                 <ul>
                     <li><a href="index.html">DashBoard</a></li>
                     <li><a href="quotes.html">Quotes</a></li>
-                    <li><a href="invoices.html" class="active">Invoices</a></li>
+                    <li><a href="invoices.html">Invoices</a></li>
                     <li><a href="clients.html">Clients</a></li>
-                    <li><a href="catalog.html">Catalogue</a></li>
+                    <li><a href="catalog.html" class="active">Catalogue</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
             </nav>
@@ -33,34 +33,45 @@
 
             <section class="cards-row">
                 <article class="card">
-                    <h2>Paid this month</h2>
-                    <p class="data" id="paid-count">0</p>
-                </article>
-                <article class="card">
-                    <h2>Not Paid</h2>
-                    <p class="data" id="not-paid-count">0</p>
+                    <h2>Nb prestations</h2>
+                    <p class="data" id="catalog-count">0</p>
                 </article>
                 <article class="card action-card">
-                    <h2>New Invoice</h2>
-                    <button id="new-invoice-btn" class="big-btn">+</button>
+                    <h2>New Prestation</h2>
+                    <button class="big-btn" onclick="window.location.href='new_catalog.html'">+</button>
                 </article>
             </section>
+
+            <hr class="section-separator">
+
+            <div class="search-filter-row">
+                <div class="search-bar">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#888" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"/>
+                        <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                    </svg>
+                    <input type="text" id="catalog-search" placeholder="Search...">
+                </div>
+                <select id="catalog-category-filter" class="category-filter">
+                    <option value="">Toutes catégories</option>
+                </select>
+            </div>
 
             <section class="list-section">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>N° Facture</th>
-                            <th>Client</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
-                            <th>Échéance</th>
+                            <th>Prestation</th>
+                            <th>Catégorie</th>
+                            <th>Prix HT</th>
+                            <th>TVA</th>
+                            <th>Coût moyen</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="invoices-tbody"></tbody>
+                    <tbody id="catalog-tbody"></tbody>
                 </table>
-                <p class="empty-msg" id="invoices-empty">Aucune facture enregistrée pour le moment.</p>
+                <p class="empty-msg" id="catalog-empty">Aucune prestation enregistrée pour le moment.</p>
             </section>
 
         </main>
@@ -72,6 +83,6 @@
 
     <script src="js/store.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/invoices.js"></script>
+    <script src="js/catalog.js"></script>
 </body>
 </html>

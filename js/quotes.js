@@ -70,20 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function seedExample() {
-        if (localStorage.getItem('mycraft_quotes') === null) {
-            const example = [{
-                number:   'DEV-0001',
-                client:   'Dupont Jean',
-                date:     '2026-05-07',
-                validity: '30',
-                status:   'Brouillon',
-                totalTtc: 1200
-            }];
-            saveData('mycraft_quotes', example);
-            saveData('mycraft_quote_counter', 1);
-        }
-    }
 
     if (newQuoteBtn) {
         newQuoteBtn.addEventListener('click', () => {

@@ -1,7 +1,3 @@
-// Handles the New Client page:
-//  - save a new client to localStorage
-//  - redirect to clients.html after saving or cancelling
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Get all elements from the page ---

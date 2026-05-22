@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCraft - Nouveau client</title>
+    <title>MyCraft - Nouvelle prestation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,8 +22,8 @@
                     <li><a href="index.html">DashBoard</a></li>
                     <li><a href="quotes.html">Quotes</a></li>
                     <li><a href="invoices.html">Invoices</a></li>
-                    <li><a href="clients.html" class="active">Clients</a></li>
-                    <li><a href="catalog.html">Catalogue</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="catalog.html" class="active">Catalogue</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
             </nav>
@@ -32,41 +32,42 @@
         <main class="main-content page-content">
 
             <section class="page-header">
-                <h1>Nouveau client</h1>
+                <h1>Nouvelle prestation</h1>
             </section>
 
-            <section id="client-form-section">
-                <h2>Informations du client</h2>
+            <section id="catalog-form-section">
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="client-name">Nom *</label>
-                        <input type="text" id="client-name" placeholder="Nom du client">
+                        <label for="catalog-name">Nom *</label>
+                        <input type="text" id="catalog-name" placeholder="Nom de la prestation">
                     </div>
                     <div class="form-group">
-                        <label for="client-type">Type</label>
-                        <select id="client-type">
-                            <option value="Particulier">Particulier</option>
-                            <option value="Professionnel">Professionnel</option>
+                        <label for="catalog-category">Catégorie</label>
+                        <input type="text" id="catalog-category" placeholder="Ex: Plomberie, Électricité...">
+                    </div>
+                    <div class="form-group">
+                        <label for="catalog-price">Prix HT (€)</label>
+                        <input type="number" id="catalog-price" value="0" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="catalog-tax">TVA (%)</label>
+                        <select id="catalog-tax">
+                            <option value="20">20%</option>
+                            <option value="10">10%</option>
+                            <option value="5.5">5,5%</option>
+                            <option value="0">0%</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="client-email">Email</label>
-                        <input type="email" id="client-email" placeholder="email@exemple.fr">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-phone">Téléphone</label>
-                        <input type="tel" id="client-phone" placeholder="+33 6 12 34 56 78">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-address">Adresse</label>
-                        <input type="text" id="client-address" placeholder="Adresse du client">
+                        <label for="catalog-avgcost">Coût moyen (€)</label>
+                        <input type="number" id="catalog-avgcost" value="0" min="0" step="0.01">
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" id="save-client-btn">Enregistrer</button>
-                    <button type="button" id="cancel-client-btn">Annuler</button>
+                    <button type="button" id="save-catalog-btn">Enregistrer</button>
+                    <button type="button" id="cancel-catalog-btn">Annuler</button>
                 </div>
             </section>
 
@@ -79,6 +80,6 @@
 
     <script src="js/store.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/new_client.js"></script>
+    <script src="js/new_catalog.js"></script>
 </body>
 </html>

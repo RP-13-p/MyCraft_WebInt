@@ -70,20 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function seedExample() {
-        if (localStorage.getItem('mycraft_invoices') === null) {
-            const example = [{
-                number:   'FAC-0001',
-                client:   'Dupont Jean',
-                date:     '2026-05-07',
-                due:      '2026-06-07',
-                status:   'Envoyée',
-                totalTtc: 1200
-            }];
-            saveData('mycraft_invoices', example);
-            saveData('mycraft_invoice_counter', 1);
-        }
-    }
 
     if (newInvoiceBtn) {
         newInvoiceBtn.addEventListener('click', () => {
