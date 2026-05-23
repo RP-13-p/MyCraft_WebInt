@@ -6,14 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveBtn        = document.getElementById('save-quote-btn');
     const cancelBtn      = document.getElementById('cancel-quote-btn');
 
-    const totalHtSpan  = document.getElementById('total-ht');
-    const totalTvaSpan = document.getElementById('total-tva');
-    const totalTtcSpan = document.getElementById('total-ttc');
+    const totalHtSpan     = document.getElementById('total-ht');
+    const totalTvaSpan    = document.getElementById('total-tva');
+    const totalTtcSpan    = document.getElementById('total-ttc');
+    const totalCostSpan   = document.getElementById('total-cost');
+    const totalProfitSpan = document.getElementById('total-profit');
 
     const clientInput   = document.getElementById('quote-client');
     const dateInput     = document.getElementById('quote-date');
     const validityInput = document.getElementById('quote-validity');
     const statusInput   = document.getElementById('quote-status');
+
+    function populateClientSelect() {
+        const clients = loadData('mycraft_clients', []);
+        clients.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = c.name;
+            clientInput.appendChild(opt);
+        });
+    }
 
     function formatEuro(amount) {
         return amount.toFixed(2).replace('.', ',') + ' €';
@@ -23,10 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseFloat(text.replace('%', '').replace(',', '.'));
     }
 
+    function buildCatalogOptions() {
+        const prestations = loadData('mycraft_catalog', []);
+        let opts = '<option value="">Manuel</option>';
+        prestations.forEach((p, i) => {
+            opts += '<option value="' + i + '">' + p.name + '</option>';
+        });
+        return opts;
+    }
+
     function addLine() {
         const line = document.createElement('div');
         line.className = 'quote-line';
         line.innerHTML =
+            '<select class="line-catalog">' + buildCatalogOptions() + '</select>' +
             '<input type="text" class="line-desc" placeholder="Description">' +
             '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
             '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
@@ -42,22 +64,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function recalculate() {
-        let totalHt  = 0;
-        let totalVat = 0;
+        let totalHt   = 0;
+        let totalVat  = 0;
+        let totalCost = 0;
 
         document.querySelectorAll('.quote-line').forEach((line) => {
-            const qty   = parseFloat(line.querySelector('.line-qty').value)   || 0;
-            const price = parseFloat(line.querySelector('.line-price').value) || 0;
-            const rate  = readVatRate(line.querySelector('.line-vat').value);
-            const lineHt = qty * price;
+            const qty     = parseFloat(line.querySelector('.line-qty').value)   || 0;
+            const price   = parseFloat(line.querySelector('.line-price').value) || 0;
+            const rate    = readVatRate(line.querySelector('.line-vat').value);
+            const avgCost = parseFloat(line.dataset.avgcost)                    || 0;
+            const lineHt  = qty * price;
             line.querySelector('.line-total').textContent = formatEuro(lineHt);
-            totalHt  += lineHt;
-            totalVat += lineHt * (rate / 100);
+            totalHt   += lineHt;
+            totalVat  += lineHt * (rate / 100);
+            totalCost += qty * avgCost;
         });
 
-        totalHtSpan.textContent  = formatEuro(totalHt);
-        totalTvaSpan.textContent = formatEuro(totalVat);
-        totalTtcSpan.textContent = formatEuro(totalHt + totalVat);
+        const totalTtc    = totalHt + totalVat;
+        const totalProfit = totalTtc - totalCost;
+
+        totalHtSpan.textContent     = formatEuro(totalHt);
+        totalTvaSpan.textContent    = formatEuro(totalVat);
+        totalTtcSpan.textContent    = formatEuro(totalTtc);
+        totalCostSpan.textContent   = formatEuro(totalCost);
+        totalProfitSpan.textContent = formatEuro(totalProfit);
+        totalProfitSpan.style.color = totalProfit >= 0 ? '#1a7f37' : '#cc0000';
     }
 
     function saveQuote() {
@@ -66,10 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // le total affiché est en format "1 200,00 €", on le reconvertit en nombre
         const totalTtc = parseFloat(
             totalTtcSpan.textContent.replace(' €', '').replace(',', '.')
         ) || 0;
+        const totalCost = parseFloat(
+            totalCostSpan.textContent.replace(' €', '').replace(',', '.')
+        ) || 0;
+        const profit = totalTtc - totalCost;
 
         let counter = loadData('mycraft_quote_counter', 0);
         counter = counter + 1;
@@ -78,12 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const number = 'DEV-' + String(counter).padStart(4, '0');
 
         const newQuote = {
-            number:   number,
-            client:   clientInput.value.trim(),
-            date:     dateInput.value || '(sans date)',
-            validity: validityInput.value,
-            status:   statusInput.value,
-            totalTtc: totalTtc
+            number:    number,
+            client:    clientInput.value.trim(),
+            date:      dateInput.value || '(sans date)',
+            validity:  validityInput.value,
+            status:    statusInput.value,
+            totalTtc:  totalTtc,
+            totalCost: totalCost,
+            profit:    profit
         };
 
         const quotes = loadData('mycraft_quotes', []);
@@ -96,7 +132,31 @@ document.addEventListener('DOMContentLoaded', () => {
     addLineBtn.addEventListener('click', () => { addLine(); });
 
     linesContainer.addEventListener('input', recalculate);
-    linesContainer.addEventListener('change', recalculate); // aussi pour les <select>
+    linesContainer.addEventListener('change', (e) => {
+        if (e.target.classList.contains('line-catalog')) {
+            const line = e.target.closest('.quote-line');
+            const idx  = e.target.value;
+            if (idx === '') {
+                line.dataset.avgcost = '0';
+            } else {
+                const prestations = loadData('mycraft_catalog', []);
+                const p = prestations[parseInt(idx)];
+                if (p) {
+                    line.querySelector('.line-desc').value  = p.name;
+                    line.querySelector('.line-price').value = p.price;
+                    const vatSelect = line.querySelector('.line-vat');
+                    for (let i = 0; i < vatSelect.options.length; i++) {
+                        if (parseFloat(vatSelect.options[i].text) === parseFloat(p.tax)) {
+                            vatSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                    line.dataset.avgcost = String(p.avgCost);
+                }
+            }
+        }
+        recalculate();
+    });
 
     linesContainer.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-line-btn')) {
@@ -108,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.addEventListener('click', saveQuote);
     cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
 
+    populateClientSelect();
     addLine();
     recalculate();
 });

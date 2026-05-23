@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyMsg         = document.getElementById('invoices-empty');
 
     function formatEuro(amount) {
-        return amount.toFixed(2).replace('.', ',') + ' €';
+        return parseFloat(amount).toFixed(2).replace('.', ',') + ' €';
     }
 
     function countPaidThisMonth() {
@@ -25,6 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function countNotPaid() {
         const invoices = loadData('mycraft_invoices', []);
         return invoices.filter(inv => inv.status !== 'Payée').length;
+    }
+
+    function statusSelect(current, index) {
+        const opts = ['À payer', 'Payée'];
+        let html = '<select class="status-select table-status-select" data-index="' + index + '">';
+        opts.forEach(o => {
+            html += '<option' + (o === current ? ' selected' : '') + '>' + o + '</option>';
+        });
+        html += '</select>';
+        return html;
     }
 
     function showInvoices() {
@@ -48,15 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<td>' + inv.number + '</td>' +
                 '<td>' + inv.client + '</td>' +
                 '<td>' + formatEuro(inv.totalTtc) + '</td>' +
-                '<td>' + inv.status + '</td>' +
+                '<td>' + statusSelect(inv.status, index) + '</td>' +
                 '<td>' + inv.due + '</td>' +
                 '<td class="action-icons">' +
-                    '<button type="button" class="action-icon-btn">' +
-                        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
-                            '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>' +
-                            '<circle cx="12" cy="12" r="3"/>' +
-                        '</svg>' +
-                    '</button>' +
                     '<button type="button" class="delete-invoice-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
                             '<polyline points="3 6 5 6 21 6"/>' +
@@ -70,6 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function seedExample() {
+        if (localStorage.getItem('mycraft_invoices') === null) {
+            const example = [{
+                number:   'FAC-0001',
+                client:   'Dupont Jean',
+                date:     '2026-05-07',
+                due:      '2026-06-07',
+                status:   'À payer',
+                totalTtc: 1200
+            }];
+            saveData('mycraft_invoices', example);
+            saveData('mycraft_invoice_counter', 1);
+        }
+    }
 
     if (newInvoiceBtn) {
         newInvoiceBtn.addEventListener('click', () => {
@@ -77,15 +95,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    tbody.addEventListener('change', (e) => {
+        const sel = e.target.closest('.status-select');
+        if (!sel) return;
+        const index = parseInt(sel.dataset.index);
+        const invoices = loadData('mycraft_invoices', []);
+        invoices[index].status = sel.value;
+        saveData('mycraft_invoices', invoices);
+        showInvoices();
+    });
+
     tbody.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-invoice-btn');
-        if (btn) {
-            const index = parseInt(btn.dataset.index);
-            const invoices = loadData('mycraft_invoices', []);
-            invoices.splice(index, 1);   // remove 1 item at position "index"
-            saveData('mycraft_invoices', invoices);
-            showInvoices();
-        }
+        if (!btn) return;
+        const index = parseInt(btn.dataset.index);
+        const invoices = loadData('mycraft_invoices', []);
+        invoices.splice(index, 1);   // remove 1 item at position "index"
+        saveData('mycraft_invoices', invoices);
+        showInvoices();
     });
 
     seedExample();

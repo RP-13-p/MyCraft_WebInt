@@ -15,6 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const dueInput    = document.getElementById('invoice-due');
     const statusInput = document.getElementById('invoice-status');
 
+    function populateClientSelect() {
+        const clients = loadData('mycraft_clients', []);
+        clients.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = c.name;
+            clientInput.appendChild(opt);
+        });
+    }
+
     function formatEuro(amount) {
         return amount.toFixed(2).replace('.', ',') + ' €';
     }
@@ -108,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.addEventListener('click', saveInvoice);
     cancelBtn.addEventListener('click', () => { window.location.href = 'invoices.html'; });
 
+    populateClientSelect();
     addLine();
     recalculate();
 });

@@ -63,6 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyMsg.style.display = found ? 'none' : 'block';
     }
 
+    function seedExample() {
+        if (localStorage.getItem('mycraft_catalog') === null) {
+            const example = [
+                { name: 'Fixing tap',      category: 'Plomberie',    price: 50,  tax: 20, avgCost: 26 },
+                { name: 'Light install',   category: 'Électricité',  price: 80,  tax: 20, avgCost: 40 }
+            ];
+            saveData('mycraft_catalog', example);
+        }
+    }
 
     searchInput.addEventListener('input', showCatalog);
     categoryFilter.addEventListener('change', showCatalog);

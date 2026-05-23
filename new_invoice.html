@@ -40,7 +40,9 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="invoice-client">Client *</label>
-                        <input type="text" id="invoice-client" placeholder="Nom du client">
+                        <select id="invoice-client">
+                            <option value="">-- Choisir un client --</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="invoice-date">Date</label>
@@ -53,9 +55,8 @@
                     <div class="form-group">
                         <label for="invoice-status">Statut</label>
                         <select id="invoice-status">
-                            <option value="Envoyée">Envoyée</option>
+                            <option value="À payer">À payer</option>
                             <option value="Payée">Payée</option>
-                            <option value="En retard">En retard</option>
                         </select>
                     </div>
                 </div>

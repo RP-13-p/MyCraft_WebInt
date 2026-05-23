@@ -20,7 +20,7 @@ Fixed sidebar links on `index.html`.
 **Next steps:**
 - `clients.html` — Clients page
 - `catalog.html` — Services catalogue
-- - Set up a local JSON file to act as a mock database for our app data
+- Set up a local JSON file to act as a mock database for our app data
 - Write the JavaScript functions to update and store account information (company name, address, logo) using `localStorage` and using form interface 
 
 ### Step 3
@@ -54,3 +54,19 @@ Wired up the dashboard action buttons: New Quote and New Invoice now navigate to
 **Next steps:**
 - Link quotes/invoices to existing clients via a dropdown
 - Link prestation lines in quotes/invoices to the catalogue
+
+### Step 6
+
+Updated the business logic linking quotes, catalog and invoices:
+
+- Quote creation form: client field is now a dropdown populated from saved clients.
+- Each quote line has a Catalogue selector that auto-fills description, price HT and TVA on selection.
+- Cost tracking added to quotes: total cost (qty × avg cost per line) and profit (TTC − cost) are computed, saved and displayed in the table with color coding.
+- Quote status is now an inline dropdown in the table: Envoyé, Signé, Validé.
+  Switching to Validé automatically creates the matching invoice and locks the row.
+- Invoice status is an inline dropdown: À payer / Payée.
+- Signed counter counts all quotes with status Signé or Facturé (no date restriction).
+
+**Next steps:**
+- Display revenue profit and date on the dashboard
+- Display maps when users note the adress of it company or client 

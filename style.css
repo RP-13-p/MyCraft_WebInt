@@ -331,7 +331,7 @@ footer {
 
 .lines-header {
     display: grid;
-    grid-template-columns: 2fr 0.6fr 0.9fr 0.6fr 0.9fr 0.3fr;
+    grid-template-columns: 1.2fr 1.5fr 0.6fr 0.9fr 0.6fr 0.9fr 0.3fr;
     gap: 8px;
     font-size: 13px;
     font-weight: bold;
@@ -342,7 +342,7 @@ footer {
 
 .quote-line {
     display: grid;
-    grid-template-columns: 2fr 0.6fr 0.9fr 0.6fr 0.9fr 0.3fr;
+    grid-template-columns: 1.2fr 1.5fr 0.6fr 0.9fr 0.6fr 0.9fr 0.3fr;
     gap: 8px;
     align-items: center;
     margin-bottom: 6px;
@@ -570,4 +570,13 @@ footer {
     background: white;
     cursor: pointer;
     outline: none;
+}
+
+.table-status-select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 13px;
+    background: white;
+    cursor: pointer;
 }
