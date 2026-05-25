@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function seedExample() {
         if (localStorage.getItem('mycraft_catalog') === null) {
             const example = [
-                { name: 'Fixing tap',      category: 'Plomberie',    price: 50,  tax: 20, avgCost: 26 },
-                { name: 'Light install',   category: 'Électricité',  price: 80,  tax: 20, avgCost: 40 }
+                { name: 'Remplacement robinet',    category: 'Plomberie',   price: 50,  tax: 20, avgCost: 26 },
+                { name: 'Installation électrique', category: 'Électricité', price: 80,  tax: 20, avgCost: 40 }
             ];
             saveData('mycraft_catalog', example);
         }

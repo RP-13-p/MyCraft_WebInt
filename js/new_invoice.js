@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const line = document.createElement('div');
         line.className = 'quote-line';
         line.innerHTML =
-            '<input type="text" class="line-desc" placeholder="Description">' +
+            '<input type="text" class="line-desc" placeholder="Intitulé">' +
             '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
             '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
             '<select class="line-vat">' +

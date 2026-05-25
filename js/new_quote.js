@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function buildCatalogOptions() {
         const prestations = loadData('mycraft_catalog', []);
-        let opts = '<option value="">Manuel</option>';
+        let opts = '<option value="">-- Catalogue --</option>';
         prestations.forEach((p, i) => {
             opts += '<option value="' + i + '">' + p.name + '</option>';
         });
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         line.className = 'quote-line';
         line.innerHTML =
             '<select class="line-catalog">' + buildCatalogOptions() + '</select>' +
-            '<input type="text" class="line-desc" placeholder="Description">' +
+            '<input type="text" class="line-desc" placeholder="Intitulé">' +
             '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
             '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
             '<select class="line-vat">' +
