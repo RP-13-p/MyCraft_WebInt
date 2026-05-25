@@ -70,3 +70,14 @@ Updated the business logic linking quotes, catalog and invoices:
 **Next steps:**
 - Display revenue profit and date on the dashboard
 - Display maps when users note the adress of it company or client 
+
+### Step 7
+
+Fully translated the user interface into French across all list pages and the dashboard.
+
+All visible text in `index.html`, `quotes.html`, `invoices.html`, `clients.html`, and `catalog.html`
+has been replaced with French equivalents: navigation labels (Tableau de bord, Devis, Factures,
+Paramètres), stat card titles (Chiffre d'affaires, Résultat, Interventions, Signés, Non signés,
+Payées ce mois, Impayées, Nombre de clients), action card headings (Nouveau devis, Nouvelle
+facture, Nouveau client, Nouvelle prestation, Exporter, Alertes), and search placeholders
+(Rechercher…). No JavaScript, ids, or class names were modified.
