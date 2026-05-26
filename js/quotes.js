@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseFloat(amount).toFixed(2).replace('.', ',') + ' €';
     }
 
+    function pad(n) { return String(n).padStart(2, '0'); }
+
     function countSigned() {
         const quotes = loadData('mycraft_quotes', []);
         return quotes.filter(q => q.status === 'Signé' || q.status === 'Facturé').length;
@@ -82,7 +84,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         emptyMsg.style.display = 'none';
 
+        const today = MyCraft.now();
+
         quotes.forEach((q, index) => {
+            // Expiry: red if past today and not yet invoiced
+            let expiryDisplay = q.expiryDate || '—';
+            let expiryStyle   = '';
+            if (q.expiryDate && q.status !== 'Facturé') {
+                const expDate = new Date(q.expiryDate);
+                if (expDate < today) {
+                    const d = expDate;
+                    expiryDisplay = pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+                    expiryStyle = 'color:#cc0000;font-weight:bold';
+                } else {
+                    const d = expDate;
+                    expiryDisplay = pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+                }
+            }
+
             const tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + q.number + '</td>' +
@@ -90,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<td>' + formatEuro(q.totalTtc) + '</td>' +
                 '<td>' + statusSelect(q.status, index) + '</td>' +
                 '<td>' + q.date + '</td>' +
+                '<td style="' + expiryStyle + '">' + expiryDisplay + '</td>' +
                 '<td class="action-icons">' +
                     '<button type="button" class="delete-quote-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +

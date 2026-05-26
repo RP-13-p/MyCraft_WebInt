@@ -1,15 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const now          = new Date();
-    const thisMonth    = now.getMonth();
-    const thisYear     = now.getFullYear();
-
-    // Returns true when a YYYY-MM-DD date string belongs to the current month.
-    function isThisMonth(dateStr) {
-        if (!dateStr || dateStr === '(sans date)') return false;
-        const d = new Date(dateStr);
-        return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
-    }
+    function pad(n) { return String(n).padStart(2, '0'); }
 
     // French locale formatting: "1 234,56 €"
     function formatEuro(amount) {
@@ -19,6 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }) + ' €';
     }
 
+    // Returns true when a YYYY-MM-DD date string belongs to the current month.
+    function isThisMonth(dateStr) {
+        if (!dateStr || dateStr === '(sans date)') return false;
+        const n = MyCraft.now();
+        const d = new Date(dateStr);
+        return d.getMonth() === n.getMonth() && d.getFullYear() === n.getFullYear();
+    }
+
+    // --- Live clock ---
+    const dateEl = document.getElementById('dash-date');
+    const timeEl = document.getElementById('dash-time');
+
+    function updateClock() {
+        const n = MyCraft.now();
+        dateEl.textContent = pad(n.getDate()) + '/' + pad(n.getMonth() + 1) + '/' + n.getFullYear();
+        timeEl.textContent = pad(n.getHours()) + 'h' + pad(n.getMinutes());
+    }
+
+    updateClock();
+    setInterval(updateClock, 60000); // refresh every minute
+
+    // --- Metrics ---
     const invoices = loadData('mycraft_invoices', []);
 
     // Revenue: sum of totalTtc for paid invoices this month

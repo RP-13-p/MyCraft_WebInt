@@ -136,3 +136,22 @@ elements identified by `#dash-revenue`, `#dash-profit`, and
 
 All monetary values are formatted in French locale (`"1 234,56 €"`).
 When no matching records exist every counter defaults to `0` (no `NaN`).
+
+### Step 11
+
+Several form and table improvements across quotes and invoices.
+
+- **Catalog picker in new invoice**: each line now has the same catalog
+  dropdown as the quote form; cost is auto-computed from `avgCost × qty`.
+- **Default date**: both `new_invoice.html` and `new_quote.html` pre-fill the
+  date field with today via `MyCraft.now()`.
+- **Quote validity**: an "Expire le" date is computed live (`date + validity
+  days`), shown in the form and saved as `expiryDate` on the quote object. The
+  quotes table gains an "Expire le" column; expired quotes are highlighted in
+  red.
+- **Invoice due date**: auto-set to `date + 30 days` when the invoice date
+  changes (user can override). Overdue unpaid invoices are shown in red in the
+  invoices table.
+- **Fix form redirect**: `saveBtn click` replaced by `form submit` +
+  `e.preventDefault()` in both new-quote and new-invoice so the browser no
+  longer reloads the form page after saving.

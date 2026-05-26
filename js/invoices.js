@@ -52,9 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         emptyMsg.style.display = 'none';
 
+        const today = MyCraft.now();
+
         invoices.forEach((inv, index) => {
             const profit      = inv.profit    || 0;
             const profitColor = profit >= 0 ? '#1a7f37' : '#cc0000';
+
+            // Due date: red + bold if overdue and not yet paid
+            const isOverdue = inv.status === 'À payer' &&
+                              inv.due && inv.due !== '(sans échéance)' &&
+                              new Date(inv.due) < today;
+            const dueStyle = isOverdue ? 'color:#cc0000;font-weight:bold' : '';
 
             const tr = document.createElement('tr');
             tr.innerHTML =
@@ -64,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<td>' + formatEuro(inv.totalCost || 0) + '</td>' +
                 '<td style="color:' + profitColor + '">' + formatEuro(profit) + '</td>' +
                 '<td>' + statusSelect(inv.status, index) + '</td>' +
-                '<td>' + inv.due + '</td>' +
+                '<td style="' + dueStyle + '">' + inv.due + '</td>' +
                 '<td class="action-icons">' +
                     '<button type="button" class="delete-invoice-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +

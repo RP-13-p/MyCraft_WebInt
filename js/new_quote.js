@@ -111,15 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const number = 'DEV-' + String(counter).padStart(4, '0');
 
+        const expiryDate = computeExpiry();
+
         const newQuote = {
-            number:    number,
-            client:    clientInput.value.trim(),
-            date:      dateInput.value || '(sans date)',
-            validity:  validityInput.value,
-            status:    statusInput.value,
-            totalTtc:  totalTtc,
-            totalCost: totalCost,
-            profit:    profit
+            number:     number,
+            client:     clientInput.value.trim(),
+            date:       dateInput.value || '(sans date)',
+            validity:   validityInput.value,
+            expiryDate: expiryDate,
+            status:     statusInput.value,
+            totalTtc:   totalTtc,
+            totalCost:  totalCost,
+            profit:     profit
         };
 
         const quotes = loadData('mycraft_quotes', []);
@@ -171,7 +174,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
 
+    const expiryEl = document.getElementById('quote-expiry');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    // Returns YYYY-MM-DD expiry date, or '' if inputs are missing.
+    function computeExpiry() {
+        if (!dateInput.value || !validityInput.value) return '';
+        const d = new Date(dateInput.value);
+        d.setDate(d.getDate() + parseInt(validityInput.value));
+        return d.toISOString().slice(0, 10);
+    }
+
+    function updateExpiryDisplay() {
+        const iso = computeExpiry();
+        if (!iso) { expiryEl.textContent = ''; return; }
+        const d = new Date(iso);
+        expiryEl.textContent = 'Expire le : ' + pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+    }
+
+    dateInput.addEventListener('change', updateExpiryDisplay);
+    validityInput.addEventListener('input', updateExpiryDisplay);
+
     populateClientSelect();
+    // Default date = today
+    dateInput.value = MyCraft.now().toISOString().slice(0, 10);
+    updateExpiryDisplay();
     addLine();
     recalculate();
 });
