@@ -100,3 +100,18 @@ The "Enregistrer" button is now `type="submit"` in every form; the "Annuler" but
 stays `type="button"` so it never triggers browser validation. Input types were already
 correct (`email`, `tel`, `number`, `date`). No ids, class names, or JavaScript logic
 were modified.
+
+### Step 9
+
+Added address geocoding and an interactive map to the client creation form
+(`new_client.html`, `js/new_client.js`, `style.css`).
+
+While the user types in the **Adresse** field, a debounced request (800 ms) is sent to
+the **Nominatim** geocoding API (OpenStreetMap, free, no API key required). On success a
+**Leaflet** map powered by OpenStreetMap tiles appears below the form fields, centred on
+the matched location with a pin marker. Subsequent keystrokes move the map and marker to
+the new result. An inline status message (`#geo-status`) informs the user when the
+search is in progress or when the address cannot be found.
+
+On save, the client object written to `localStorage` includes `lat` and `lng`
+(`null` if the address field was left empty or returned no result).
