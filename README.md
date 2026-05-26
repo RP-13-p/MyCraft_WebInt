@@ -81,3 +81,22 @@ Paramètres), stat card titles (Chiffre d'affaires, Résultat, Interventions, Si
 Payées ce mois, Impayées, Nombre de clients), action card headings (Nouveau devis, Nouvelle
 facture, Nouveau client, Nouvelle prestation, Exporter, Alertes), and search placeholders
 (Rechercher…). No JavaScript, ids, or class names were modified.
+
+### Step 8
+
+Converted all data-entry pages to real HTML5 forms.
+
+Each creation and settings page (`new_client.html`, `new_catalog.html`, `new_quote.html`,
+`new_invoice.html`, `settings.html`) now wraps its fields and action buttons inside a proper
+`<form>` element with a unique `id` (`client-form`, `catalog-form`, `quote-form`,
+`invoice-form`, `settings-form`).
+
+Required fields are enforced with the `required` attribute:
+- Client name in `new_client.html`
+- Prestation name in `new_catalog.html`
+- Client selector in `new_quote.html` and `new_invoice.html`
+
+The "Enregistrer" button is now `type="submit"` in every form; the "Annuler" button
+stays `type="button"` so it never triggers browser validation. Input types were already
+correct (`email`, `tel`, `number`, `date`). No ids, class names, or JavaScript logic
+were modified.

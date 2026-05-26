@@ -37,58 +37,60 @@
 
             <section id="quote-form-section">
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="quote-client">Client *</label>
-                        <select id="quote-client">
-                            <option value="">-- Choisir un client --</option>
-                        </select>
+                <form id="quote-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="quote-client">Client *</label>
+                            <select id="quote-client" required>
+                                <option value="">-- Choisir un client --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-date">Date</label>
+                            <input type="date" id="quote-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-validity">Validité (jours)</label>
+                            <input type="number" id="quote-validity" value="30" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-status">Statut</label>
+                            <select id="quote-status">
+                                <option value="Envoyé">Envoyé</option>
+                                <option value="Signé">Signé</option>
+                                <option value="Validé">Validé</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="quote-date">Date</label>
-                        <input type="date" id="quote-date">
+
+                    <h3>Lignes de prestation</h3>
+                    <div class="lines-header">
+                        <span>Catalogue</span>
+                        <span>Description</span>
+                        <span>Qté</span>
+                        <span>Prix HT (€)</span>
+                        <span>TVA (%)</span>
+                        <span>Total HT</span>
+                        <span></span>
                     </div>
-                    <div class="form-group">
-                        <label for="quote-validity">Validité (jours)</label>
-                        <input type="number" id="quote-validity" value="30" min="1">
+
+                    <div id="quote-lines"></div>
+
+                    <button type="button" id="add-line-btn">+ Ajouter une ligne</button>
+
+                    <div class="totals-section">
+                        <p>Total HT : <span id="total-ht">0,00 €</span></p>
+                        <p>Total TVA : <span id="total-tva">0,00 €</span></p>
+                        <p><strong>Total TTC : <span id="total-ttc">0,00 €</span></strong></p>
+                        <p>Coût total : <span id="total-cost">0,00 €</span></p>
+                        <p>Résultat : <span id="total-profit">0,00 €</span></p>
                     </div>
-                    <div class="form-group">
-                        <label for="quote-status">Statut</label>
-                        <select id="quote-status">
-                            <option value="Envoyé">Envoyé</option>
-                            <option value="Signé">Signé</option>
-                            <option value="Validé">Validé</option>
-                        </select>
+
+                    <div class="form-actions">
+                        <button type="submit" id="save-quote-btn">Enregistrer</button>
+                        <button type="button" id="cancel-quote-btn">Annuler</button>
                     </div>
-                </div>
-
-                <h3>Lignes de prestation</h3>
-                <div class="lines-header">
-                    <span>Catalogue</span>
-                    <span>Description</span>
-                    <span>Qté</span>
-                    <span>Prix HT (€)</span>
-                    <span>TVA (%)</span>
-                    <span>Total HT</span>
-                    <span></span>
-                </div>
-
-                <div id="quote-lines"></div>
-
-                <button type="button" id="add-line-btn">+ Ajouter une ligne</button>
-
-                <div class="totals-section">
-                    <p>Total HT : <span id="total-ht">0,00 €</span></p>
-                    <p>Total TVA : <span id="total-tva">0,00 €</span></p>
-                    <p><strong>Total TTC : <span id="total-ttc">0,00 €</span></strong></p>
-                    <p>Coût total : <span id="total-cost">0,00 €</span></p>
-                    <p>Résultat : <span id="total-profit">0,00 €</span></p>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" id="save-quote-btn">Enregistrer</button>
-                    <button type="button" id="cancel-quote-btn">Annuler</button>
-                </div>
+                </form>
             </section>
 
         </main>

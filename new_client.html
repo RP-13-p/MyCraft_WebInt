@@ -38,36 +38,38 @@
             <section id="client-form-section">
                 <h2>Informations du client</h2>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="client-name">Nom *</label>
-                        <input type="text" id="client-name" placeholder="Nom du client">
+                <form id="client-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="client-name">Nom *</label>
+                            <input type="text" id="client-name" placeholder="Nom du client" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-type">Type</label>
+                            <select id="client-type">
+                                <option value="Particulier">Particulier</option>
+                                <option value="Professionnel">Professionnel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-email">Email</label>
+                            <input type="email" id="client-email" placeholder="email@exemple.fr">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone">Téléphone</label>
+                            <input type="tel" id="client-phone" placeholder="+33 6 12 34 56 78">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-address">Adresse</label>
+                            <input type="text" id="client-address" placeholder="Adresse du client">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="client-type">Type</label>
-                        <select id="client-type">
-                            <option value="Particulier">Particulier</option>
-                            <option value="Professionnel">Professionnel</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="client-email">Email</label>
-                        <input type="email" id="client-email" placeholder="email@exemple.fr">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-phone">Téléphone</label>
-                        <input type="tel" id="client-phone" placeholder="+33 6 12 34 56 78">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-address">Adresse</label>
-                        <input type="text" id="client-address" placeholder="Adresse du client">
-                    </div>
-                </div>
 
-                <div class="form-actions">
-                    <button type="button" id="save-client-btn">Enregistrer</button>
-                    <button type="button" id="cancel-client-btn">Annuler</button>
-                </div>
+                    <div class="form-actions">
+                        <button type="submit" id="save-client-btn">Enregistrer</button>
+                        <button type="button" id="cancel-client-btn">Annuler</button>
+                    </div>
+                </form>
             </section>
 
         </main>
