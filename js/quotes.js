@@ -31,12 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
         saveData('mycraft_invoice_counter', counter);
 
         const newInvoice = {
-            number:   'FAC-' + String(counter).padStart(4, '0'),
-            client:   q.client,
-            date:     new Date().toISOString().slice(0, 10),
-            due:      '',
-            status:   'À payer',
-            totalTtc: q.totalTtc
+            number:    'FAC-' + String(counter).padStart(4, '0'),
+            client:    q.client,
+            date:      new Date().toISOString().slice(0, 10),
+            due:       '',
+            status:    'À payer',
+            totalTtc:  q.totalTtc,
+            totalCost: q.totalCost || 0,
+            profit:    q.profit    || 0
         };
 
         const invoices = loadData('mycraft_invoices', []);
@@ -81,17 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyMsg.style.display = 'none';
 
         quotes.forEach((q, index) => {
-            const profit    = q.profit    || 0;
-            const totalCost = q.totalCost || 0;
-            const profitColor = profit >= 0 ? '#1a7f37' : '#cc0000';
-
             const tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + q.number + '</td>' +
                 '<td>' + q.client + '</td>' +
                 '<td>' + formatEuro(q.totalTtc) + '</td>' +
-                '<td>' + formatEuro(totalCost) + '</td>' +
-                '<td style="color:' + profitColor + '">' + formatEuro(profit) + '</td>' +
                 '<td>' + statusSelect(q.status, index) + '</td>' +
                 '<td>' + q.date + '</td>' +
                 '<td class="action-icons">' +

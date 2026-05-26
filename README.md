@@ -115,3 +115,24 @@ search is in progress or when the address cannot be found.
 
 On save, the client object written to `localStorage` includes `lat` and `lng`
 (`null` if the address field was left empty or returned no result).
+
+### Step 10
+
+Dashboard metrics are now computed from real `localStorage` data instead of
+being hard-coded (`index.html`, `js/dashboard.js`).
+
+A new script `js/dashboard.js` runs on `DOMContentLoaded` and updates three
+elements identified by `#dash-revenue`, `#dash-profit`, and
+`#dash-interventions`:
+
+- **Revenue** (`#dash-revenue`): sum of `totalTtc` for all invoices in
+  `mycraft_invoices` whose `status` is `"Payée"` and whose `date` falls in the
+  current calendar month.
+- **Profit** (`#dash-profit`): sum of the `profit` field of every quote in
+  `mycraft_quotes` dated in the current month. Positive values are prefixed
+  with `"+ "`.
+- **Interventions** (`#dash-interventions`): total count of invoices in
+  `mycraft_invoices` dated in the current month, regardless of status.
+
+All monetary values are formatted in French locale (`"1 234,56 €"`).
+When no matching records exist every counter defaults to `0` (no `NaN`).

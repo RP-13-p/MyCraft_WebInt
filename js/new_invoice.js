@@ -6,9 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveBtn        = document.getElementById('save-invoice-btn');
     const cancelBtn      = document.getElementById('cancel-invoice-btn');
 
-    const totalHtSpan  = document.getElementById('total-ht');
-    const totalTvaSpan = document.getElementById('total-tva');
-    const totalTtcSpan = document.getElementById('total-ttc');
+    const totalHtSpan     = document.getElementById('total-ht');
+    const totalTvaSpan    = document.getElementById('total-tva');
+    const totalTtcSpan    = document.getElementById('total-ttc');
+    const invoiceCostInput = document.getElementById('invoice-cost');
+    const totalProfitSpan  = document.getElementById('total-profit');
 
     const clientInput = document.getElementById('invoice-client');
     const dateInput   = document.getElementById('invoice-date');
@@ -65,9 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
             totalVat += lineHt * (rate / 100);
         });
 
-        totalHtSpan.textContent  = formatEuro(totalHt);
-        totalTvaSpan.textContent = formatEuro(totalVat);
-        totalTtcSpan.textContent = formatEuro(totalHt + totalVat);
+        const totalTtc = totalHt + totalVat;
+        const cost     = parseFloat(invoiceCostInput.value) || 0;
+        const profit   = totalTtc - cost;
+
+        totalHtSpan.textContent     = formatEuro(totalHt);
+        totalTvaSpan.textContent    = formatEuro(totalVat);
+        totalTtcSpan.textContent    = formatEuro(totalTtc);
+        totalProfitSpan.textContent = formatEuro(profit);
+        totalProfitSpan.style.color = profit >= 0 ? '#1a7f37' : '#cc0000';
     }
 
     function saveInvoice() {
@@ -76,10 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // le total affiché est en format "1 200,00 €", on le reconvertit en nombre
-        const totalTtc = parseFloat(
+        const totalTtc  = parseFloat(
             totalTtcSpan.textContent.replace(' €', '').replace(',', '.')
         ) || 0;
+        const totalCost = parseFloat(invoiceCostInput.value) || 0;
+        const profit    = totalTtc - totalCost;
 
         let counter = loadData('mycraft_invoice_counter', 0);
         counter = counter + 1;
@@ -88,12 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const number = 'FAC-' + String(counter).padStart(4, '0');
 
         const newInvoice = {
-            number:   number,
-            client:   clientInput.value.trim(),
-            date:     dateInput.value || '(sans date)',
-            due:      dueInput.value || '(sans échéance)',
-            status:   statusInput.value,
-            totalTtc: totalTtc
+            number:    number,
+            client:    clientInput.value.trim(),
+            date:      dateInput.value || '(sans date)',
+            due:       dueInput.value  || '(sans échéance)',
+            status:    statusInput.value,
+            totalTtc:  totalTtc,
+            totalCost: totalCost,
+            profit:    profit
         };
 
         const invoices = loadData('mycraft_invoices', []);
@@ -106,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
     addLineBtn.addEventListener('click', () => { addLine(); });
 
     linesContainer.addEventListener('input', recalculate);
-    linesContainer.addEventListener('change', recalculate); // aussi pour les <select>
+    linesContainer.addEventListener('change', recalculate);
+    invoiceCostInput.addEventListener('input', recalculate);
 
     linesContainer.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-line-btn')) {
@@ -115,7 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    saveBtn.addEventListener('click', saveInvoice);
+    document.getElementById('invoice-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveInvoice();
+    });
     cancelBtn.addEventListener('click', () => { window.location.href = 'invoices.html'; });
 
     populateClientSelect();

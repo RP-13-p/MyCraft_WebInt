@@ -165,7 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    saveBtn.addEventListener('click', saveQuote);
+    document.getElementById('quote-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveQuote();
+    });
     cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
 
     populateClientSelect();

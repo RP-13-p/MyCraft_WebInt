@@ -53,11 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyMsg.style.display = 'none';
 
         invoices.forEach((inv, index) => {
+            const profit      = inv.profit    || 0;
+            const profitColor = profit >= 0 ? '#1a7f37' : '#cc0000';
+
             const tr = document.createElement('tr');
             tr.innerHTML =
                 '<td>' + inv.number + '</td>' +
                 '<td>' + inv.client + '</td>' +
                 '<td>' + formatEuro(inv.totalTtc) + '</td>' +
+                '<td>' + formatEuro(inv.totalCost || 0) + '</td>' +
+                '<td style="color:' + profitColor + '">' + formatEuro(profit) + '</td>' +
                 '<td>' + statusSelect(inv.status, index) + '</td>' +
                 '<td>' + inv.due + '</td>' +
                 '<td class="action-icons">' +
@@ -77,12 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function seedExample() {
         if (localStorage.getItem('mycraft_invoices') === null) {
             const example = [{
-                number:   'FAC-0001',
-                client:   'Dupont Jean',
-                date:     '2026-05-07',
-                due:      '2026-06-07',
-                status:   'À payer',
-                totalTtc: 1200
+                number:    'FAC-0001',
+                client:    'Dupont Jean',
+                date:      '2026-05-07',
+                due:       '2026-06-07',
+                status:    'À payer',
+                totalTtc:  1200,
+                totalCost: 600,
+                profit:    600
             }];
             saveData('mycraft_invoices', example);
             saveData('mycraft_invoice_counter', 1);
