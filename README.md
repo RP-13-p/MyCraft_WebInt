@@ -66,3 +66,15 @@ Tablet (≤ 1024px): card grids go from 4 to 2 columns.
 Mobile (≤ 600px): single column, sidebar overlay, forms stack vertically.
 For tables on mobile, on LLM advice (see `AI_prompt.txt` #8) we used the stacked card pattern
 instead of horizontal scroll: each row becomes a block with labeled fields via `data-label` + `::before`.
+
+### Step 13
+
+Fixed dashboard layout and metrics accuracy.
+
+Layout: `body` is now a flex column (`height: 100%`, `overflow: hidden`) so the whole app
+fits in the viewport without a page-level scrollbar. `app-layout` fills the remaining height
+(`flex: 1`, `min-height: 0`). `main-content` scrolls internally (`overflow-y: auto`),
+which also benefits list pages (quotes, invoices) when tables are long.
+The clock card no longer uses `aspect-ratio: 1/1` — it is now a fixed 130 × 130 px circle,
+preventing it from stretching the row to hundreds of pixels. Padding, gap and margins were
+tightened so both dashboard rows fit on a standard laptop screen without scrolling.
