@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .reduce((sum, inv) => sum + (parseFloat(inv.totalTtc) || 0), 0);
 
     const profit = invoices
-        .filter(inv => isThisMonth(inv.date))
+        .filter(inv => inv.status === 'Payée' && isThisMonth(inv.date))
         .reduce((sum, inv) => sum + (parseFloat(inv.profit) || 0), 0);
 
-    const interventions = invoices.filter(inv => isThisMonth(inv.date)).length;
+    const interventions = invoices.filter(inv => inv.status === 'Payée' && isThisMonth(inv.date)).length;
 
     document.getElementById('dash-revenue').textContent = fmtEuro(revenue);
     document.getElementById('dash-interventions').textContent = interventions;
