@@ -1,14 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const countSpan      = document.getElementById('catalog-count');
-    const searchInput    = document.getElementById('catalog-search');
+    const countSpan = document.getElementById('catalog-count');
+    const searchInput = document.getElementById('catalog-search');
     const categoryFilter = document.getElementById('catalog-category-filter');
-    const tbody          = document.getElementById('catalog-tbody');
-    const emptyMsg       = document.getElementById('catalog-empty');
-
-    function formatEuro(amount) {
-        return parseFloat(amount).toFixed(2).replace('.', ',') + ' €';
-    }
+    const tbody = document.getElementById('catalog-tbody');
+    const emptyMsg = document.getElementById('catalog-empty');
 
     function buildCategoryFilter(prestations) {
         const categories = [...new Set(prestations.map(p => p.category).filter(Boolean))];
@@ -25,14 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showCatalog() {
         const prestations = loadData('mycraft_catalog', []);
-        const term     = searchInput.value.toLowerCase();
+        const term = searchInput.value.toLowerCase();
         const category = categoryFilter.value;
 
-        // Update the counter card
         countSpan.textContent = prestations.length;
-
         buildCategoryFilter(prestations);
-
         tbody.innerHTML = '';
 
         let found = false;
@@ -42,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
             found = true;
             const tr = document.createElement('tr');
             tr.innerHTML =
-                '<td>' + p.name + '</td>' +
-                '<td>' + p.category + '</td>' +
-                '<td>' + formatEuro(p.price) + '</td>' +
-                '<td>' + p.tax + '%</td>' +
-                '<td>' + formatEuro(p.avgCost) + '</td>' +
+                '<td data-label="Prestation">' + p.name + '</td>' +
+                '<td data-label="Catégorie">' + p.category + '</td>' +
+                '<td data-label="Prix HT">' + formatEuro(p.price) + '</td>' +
+                '<td data-label="TVA">' + p.tax + '%</td>' +
+                '<td data-label="Coût moyen">' + formatEuro(p.avgCost) + '</td>' +
                 '<td class="action-icons">' +
                     '<button type="button" class="delete-catalog-btn action-icon-btn" data-index="' + i + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
@@ -64,13 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function seedExample() {
-        if (localStorage.getItem('mycraft_catalog') === null) {
-            const example = [
-                { name: 'Remplacement robinet',    category: 'Plomberie',   price: 50,  tax: 20, avgCost: 26 },
-                { name: 'Installation électrique', category: 'Électricité', price: 80,  tax: 20, avgCost: 40 }
-            ];
-            saveData('mycraft_catalog', example);
-        }
+        if (localStorage.getItem('mycraft_catalog') !== null) return;
+        saveData('mycraft_catalog', [
+            { name: 'Remplacement robinet', category: 'Plomberie', price: 50, tax: 20, avgCost: 26 },
+            { name: 'Installation électrique', category: 'Électricité', price: 80, tax: 20, avgCost: 40 }
+        ]);
     }
 
     searchInput.addEventListener('input', showCatalog);
@@ -78,13 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tbody.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-catalog-btn');
-        if (btn) {
-            const index = parseInt(btn.dataset.index);
-            const prestations = loadData('mycraft_catalog', []);
-            prestations.splice(index, 1);   // remove 1 item at position "index"
-            saveData('mycraft_catalog', prestations);
-            showCatalog();
-        }
+        if (!btn) return;
+        const index = parseInt(btn.dataset.index);
+        const prestations = loadData('mycraft_catalog', []);
+        prestations.splice(index, 1);
+        saveData('mycraft_catalog', prestations);
+        showCatalog();
     });
 
     seedExample();

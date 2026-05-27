@@ -601,7 +601,6 @@ footer {
 
 
 @media (max-width: 1024px) {
-    /* Grilles de cartes : 4 colonnes → 2 colonnes */
     .grid-row,
     .top-stats,
     .bottom-actions {
@@ -621,7 +620,6 @@ footer {
 }
 
 @media (max-width: 600px) {
-    /* Grilles de cartes : 1 colonne */
     .grid-row,
     .top-stats,
     .bottom-actions {
@@ -640,9 +638,8 @@ footer {
         width: 100%;
     }
 
-    
     .sidebar {
-        left: -250px; 
+        left: -250px;
         overflow-y: auto;
     }
 
@@ -651,41 +648,97 @@ footer {
         box-shadow: 4px 0 16px rgba(0, 0, 0, 0.25);
     }
 
-    
     .main-content {
         width: 100%;
+        min-width: 0;
         padding: 20px 15px;
     }
 
-   
     #menu-btn {
         display: inline-flex;
     }
 
-    
     .topbar {
         padding: 10px 15px;
     }
 
-    
     .page-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
 
-    
     .form-grid {
         grid-template-columns: 1fr;
     }
 
-    
-    .data-table {
-        font-size: 12px;
+    .data-table thead {
+        display: none;
     }
 
-    .data-table th,
+    .data-table,
+    .data-table tbody,
+    .data-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table tbody tr {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        padding: 4px 12px;
+    }
+
+    .data-table tbody tr:hover {
+        background: none;
+    }
+
     .data-table td {
-        padding: 7px 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .data-table td:last-child {
+        border-bottom: none;
+        justify-content: flex-end;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 11px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-align: left;
+        flex-shrink: 0;
+        margin-right: 12px;
+    }
+
+    .data-table td.action-icons::before {
+        content: none;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .search-filter-row {
+        flex-wrap: wrap;
+    }
+
+    .search-bar {
+        max-width: 100%;
     }
 }

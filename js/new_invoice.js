@@ -1,20 +1,18 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const linesContainer = document.getElementById('invoice-lines');
-    const addLineBtn     = document.getElementById('add-line-btn');
-    const saveBtn        = document.getElementById('save-invoice-btn');
-    const cancelBtn      = document.getElementById('cancel-invoice-btn');
+    const addLineBtn = document.getElementById('add-line-btn');
+    const cancelBtn = document.getElementById('cancel-invoice-btn');
 
-    const totalHtSpan    = document.getElementById('total-ht');
-    const totalTvaSpan   = document.getElementById('total-tva');
-    const totalTtcSpan   = document.getElementById('total-ttc');
-    const totalCostSpan  = document.getElementById('total-cost');
+    const totalHtSpan = document.getElementById('total-ht');
+    const totalTvaSpan = document.getElementById('total-tva');
+    const totalTtcSpan = document.getElementById('total-ttc');
+    const totalCostSpan = document.getElementById('total-cost');
     const totalProfitSpan = document.getElementById('total-profit');
 
     const clientInput = document.getElementById('invoice-client');
-    const dateInput   = document.getElementById('invoice-date');
-    const dueInput    = document.getElementById('invoice-due');
+    const dateInput = document.getElementById('invoice-date');
+    const dueInput = document.getElementById('invoice-due');
     const statusInput = document.getElementById('invoice-status');
 
     function populateClientSelect() {
@@ -25,10 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             opt.textContent = c.name;
             clientInput.appendChild(opt);
         });
-    }
-
-    function formatEuro(amount) {
-        return amount.toFixed(2).replace('.', ',') + ' €';
     }
 
     function readVatRate(text) {
@@ -64,62 +58,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function recalculate() {
-        let totalHt   = 0;
-        let totalVat  = 0;
+        let totalHt = 0;
+        let totalVat = 0;
         let totalCost = 0;
 
         document.querySelectorAll('.quote-line').forEach((line) => {
-            const qty     = parseFloat(line.querySelector('.line-qty').value)   || 0;
-            const price   = parseFloat(line.querySelector('.line-price').value) || 0;
-            const rate    = readVatRate(line.querySelector('.line-vat').value);
-            const avgCost = parseFloat(line.dataset.avgcost)                    || 0;
-            const lineHt  = qty * price;
+            const qty = parseFloat(line.querySelector('.line-qty').value) || 0;
+            const price = parseFloat(line.querySelector('.line-price').value) || 0;
+            const rate = readVatRate(line.querySelector('.line-vat').value);
+            const avgCost = parseFloat(line.dataset.avgcost) || 0;
+            const lineHt = qty * price;
             line.querySelector('.line-total').textContent = formatEuro(lineHt);
-            totalHt   += lineHt;
-            totalVat  += lineHt * (rate / 100);
+            totalHt += lineHt;
+            totalVat += lineHt * (rate / 100);
             totalCost += qty * avgCost;
         });
 
         const totalTtc = totalHt + totalVat;
-        const profit   = totalTtc - totalCost;
+        const profit = totalTtc - totalCost;
 
-        totalHtSpan.textContent     = formatEuro(totalHt);
-        totalTvaSpan.textContent    = formatEuro(totalVat);
-        totalTtcSpan.textContent    = formatEuro(totalTtc);
-        totalCostSpan.textContent   = formatEuro(totalCost);
+        totalHtSpan.textContent = formatEuro(totalHt);
+        totalTvaSpan.textContent = formatEuro(totalVat);
+        totalTtcSpan.textContent = formatEuro(totalTtc);
+        totalCostSpan.textContent = formatEuro(totalCost);
         totalProfitSpan.textContent = formatEuro(profit);
         totalProfitSpan.style.color = profit >= 0 ? '#1a7f37' : '#cc0000';
     }
 
+    function updateDueDate() {
+        if (!dateInput.value) return;
+        const d = new Date(dateInput.value);
+        d.setDate(d.getDate() + 30);
+        dueInput.value = d.toISOString().slice(0, 10);
+    }
+
     function saveInvoice() {
-        if (clientInput.value.trim() === '') {
-            alert('Merci d\'indiquer le nom du client.');
-            return;
-        }
+        const totalTtc = parseFloat(totalTtcSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
+        const totalCost = parseFloat(totalCostSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
 
-        const totalTtc  = parseFloat(
-            totalTtcSpan.textContent.replace(' €', '').replace(',', '.')
-        ) || 0;
-        const totalCost = parseFloat(
-            totalCostSpan.textContent.replace(' €', '').replace(',', '.')
-        ) || 0;
-        const profit = totalTtc - totalCost;
-
-        let counter = loadData('mycraft_invoice_counter', 0);
-        counter = counter + 1;
+        let counter = loadData('mycraft_invoice_counter', 0) + 1;
         saveData('mycraft_invoice_counter', counter);
 
-        const number = 'FAC-' + String(counter).padStart(4, '0');
-
         const newInvoice = {
-            number:    number,
-            client:    clientInput.value.trim(),
-            date:      dateInput.value || '(sans date)',
-            due:       dueInput.value  || '(sans échéance)',
-            status:    statusInput.value,
-            totalTtc:  totalTtc,
+            number: 'FAC-' + String(counter).padStart(4, '0'),
+            client: clientInput.value.trim(),
+            date: dateInput.value || '(sans date)',
+            due: dueInput.value || '(sans échéance)',
+            status: statusInput.value,
+            totalTtc: totalTtc,
             totalCost: totalCost,
-            profit:    profit
+            profit: totalTtc - totalCost
         };
 
         const invoices = loadData('mycraft_invoices', []);
@@ -129,29 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'invoices.html';
     }
 
-    // Auto due date: invoice date + 30 days
-    function updateDueDate() {
-        if (!dateInput.value) return;
-        const d = new Date(dateInput.value);
-        d.setDate(d.getDate() + 30);
-        dueInput.value = d.toISOString().slice(0, 10);
-    }
-
     addLineBtn.addEventListener('click', () => { addLine(); });
-
     linesContainer.addEventListener('input', recalculate);
 
     linesContainer.addEventListener('change', (e) => {
         if (e.target.classList.contains('line-catalog')) {
             const line = e.target.closest('.quote-line');
-            const idx  = e.target.value;
+            const idx = e.target.value;
             if (idx === '') {
                 line.dataset.avgcost = '0';
             } else {
                 const prestations = loadData('mycraft_catalog', []);
                 const p = prestations[parseInt(idx)];
                 if (p) {
-                    line.querySelector('.line-desc').value  = p.name;
+                    line.querySelector('.line-desc').value = p.name;
                     line.querySelector('.line-price').value = p.price;
                     const vatSelect = line.querySelector('.line-vat');
                     for (let i = 0; i < vatSelect.options.length; i++) {
@@ -183,8 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelBtn.addEventListener('click', () => { window.location.href = 'invoices.html'; });
 
     populateClientSelect();
-    // Default date = today, then compute due date
-    dateInput.value = MyCraft.now().toISOString().slice(0, 10);
+    dateInput.value = new Date().toISOString().slice(0, 10);
     updateDueDate();
     addLine();
     recalculate();

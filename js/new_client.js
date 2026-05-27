@@ -1,28 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Elements ---
-    const nameInput    = document.getElementById('client-name');
-    const typeInput    = document.getElementById('client-type');
-    const emailInput   = document.getElementById('client-email');
-    const phoneInput   = document.getElementById('client-phone');
+    const nameInput = document.getElementById('client-name');
+    const typeInput = document.getElementById('client-type');
+    const emailInput = document.getElementById('client-email');
+    const phoneInput = document.getElementById('client-phone');
     const addressInput = document.getElementById('client-address');
-    const geoStatus    = document.getElementById('geo-status');
-    const mapEl        = document.getElementById('client-map');
+    const geoStatus = document.getElementById('geo-status');
+    const mapEl = document.getElementById('client-map');
 
-    const saveBtn   = document.getElementById('save-client-btn');
+    const saveBtn = document.getElementById('save-client-btn');
     const cancelBtn = document.getElementById('cancel-client-btn');
 
-    // Coordinates updated each time a geocoding result is found
     let lat = null;
     let lng = null;
     let map = null;
     let marker = null;
     let debounceTimer = null;
 
-    // --- Map (Leaflet + OpenStreetMap) ---
-
     function showMap(latVal, lngVal) {
-        // Reveal the container on first use
         mapEl.style.display = 'block';
 
         if (!map) {
@@ -36,11 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
             marker.setLatLng([latVal, lngVal]);
         }
 
-        // Fix tile sizing when the container was hidden at init time
         map.invalidateSize();
     }
-
-    // --- Geocoding via Nominatim (OpenStreetMap, no API key) ---
 
     function geocodeAddress(address) {
         if (!address.trim()) {
@@ -72,13 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Wait 800 ms after the user stops typing before calling the API
     addressInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => geocodeAddress(addressInput.value), 800);
     });
-
-    // --- Save a client ---
 
     function saveClient() {
         if (nameInput.value.trim() === '') {
@@ -87,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const newClient = {
-            name:    nameInput.value.trim(),
-            type:    typeInput.value,
-            email:   emailInput.value.trim(),
-            phone:   phoneInput.value.trim(),
+            name: nameInput.value.trim(),
+            type: typeInput.value,
+            email: emailInput.value.trim(),
+            phone: phoneInput.value.trim(),
             address: addressInput.value.trim(),
-            lat:     lat,   // null if address was not geocoded
-            lng:     lng
+            lat: lat,
+            lng: lng
         };
 
         const clients = loadData('mycraft_clients', []);
@@ -102,8 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.location.href = 'clients.html';
     }
-
-    // --- Events ---
 
     saveBtn.addEventListener('click', saveClient);
 

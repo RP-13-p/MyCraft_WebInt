@@ -1,15 +1,10 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    const paidCountSpan    = document.getElementById('paid-count');
+    const paidCountSpan = document.getElementById('paid-count');
     const notPaidCountSpan = document.getElementById('not-paid-count');
-    const newInvoiceBtn    = document.getElementById('new-invoice-btn');
-    const tbody            = document.getElementById('invoices-tbody');
-    const emptyMsg         = document.getElementById('invoices-empty');
-
-    function formatEuro(amount) {
-        return parseFloat(amount).toFixed(2).replace('.', ',') + ' €';
-    }
+    const newInvoiceBtn = document.getElementById('new-invoice-btn');
+    const tbody = document.getElementById('invoices-tbody');
+    const emptyMsg = document.getElementById('invoices-empty');
 
     function countPaidThisMonth() {
         const invoices = loadData('mycraft_invoices', []);
@@ -40,11 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function showInvoices() {
         const invoices = loadData('mycraft_invoices', []);
 
-        // Update the counter cards
-        paidCountSpan.textContent    = countPaidThisMonth();
+        paidCountSpan.textContent = countPaidThisMonth();
         notPaidCountSpan.textContent = countNotPaid();
 
-        tbody.innerHTML = '';   // clear the table before rebuilding it
+        tbody.innerHTML = '';
 
         if (invoices.length === 0) {
             emptyMsg.style.display = 'block';
@@ -52,13 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         emptyMsg.style.display = 'none';
 
-        const today = MyCraft.now();
+        const today = new Date();
 
         invoices.forEach((inv, index) => {
-            const profit      = inv.profit    || 0;
+            const profit = inv.profit || 0;
             const profitColor = profit >= 0 ? '#1a7f37' : '#cc0000';
 
-            // Due date: red + bold if overdue and not yet paid
             const isOverdue = inv.status === 'À payer' &&
                               inv.due && inv.due !== '(sans échéance)' &&
                               new Date(inv.due) < today;
@@ -66,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const tr = document.createElement('tr');
             tr.innerHTML =
-                '<td>' + inv.number + '</td>' +
-                '<td>' + inv.client + '</td>' +
-                '<td>' + formatEuro(inv.totalTtc) + '</td>' +
-                '<td>' + formatEuro(inv.totalCost || 0) + '</td>' +
-                '<td style="color:' + profitColor + '">' + formatEuro(profit) + '</td>' +
-                '<td>' + statusSelect(inv.status, index) + '</td>' +
-                '<td style="' + dueStyle + '">' + inv.due + '</td>' +
+                '<td data-label="N° Facture">' + inv.number + '</td>' +
+                '<td data-label="Client">' + inv.client + '</td>' +
+                '<td data-label="Montant TTC">' + formatEuro(inv.totalTtc) + '</td>' +
+                '<td data-label="Coût">' + formatEuro(inv.totalCost || 0) + '</td>' +
+                '<td data-label="Résultat" style="color:' + profitColor + '">' + formatEuro(profit) + '</td>' +
+                '<td data-label="Statut">' + statusSelect(inv.status, index) + '</td>' +
+                '<td data-label="Échéance" style="' + dueStyle + '">' + inv.due + '</td>' +
                 '<td class="action-icons">' +
                     '<button type="button" class="delete-invoice-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
@@ -88,20 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function seedExample() {
-        if (localStorage.getItem('mycraft_invoices') === null) {
-            const example = [{
-                number:    'FAC-0001',
-                client:    'Dupont Jean',
-                date:      '2026-05-07',
-                due:       '2026-06-07',
-                status:    'À payer',
-                totalTtc:  1200,
-                totalCost: 600,
-                profit:    600
-            }];
-            saveData('mycraft_invoices', example);
-            saveData('mycraft_invoice_counter', 1);
-        }
+        if (localStorage.getItem('mycraft_invoices') !== null) return;
+        saveData('mycraft_invoices', [{
+            number: 'FAC-0001',
+            client: 'Leroy Thomas',
+            date: '2026-05-07',
+            due: '2026-06-07',
+            status: 'À payer',
+            totalTtc: 1200,
+            totalCost: 600,
+            profit: 600
+        }]);
+        saveData('mycraft_invoice_counter', 1);
     }
 
     if (newInvoiceBtn) {
@@ -125,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!btn) return;
         const index = parseInt(btn.dataset.index);
         const invoices = loadData('mycraft_invoices', []);
-        invoices.splice(index, 1);   // remove 1 item at position "index"
+        invoices.splice(index, 1);
         saveData('mycraft_invoices', invoices);
         showInvoices();
     });

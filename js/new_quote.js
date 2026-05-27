@@ -1,21 +1,20 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const linesContainer = document.getElementById('quote-lines');
-    const addLineBtn     = document.getElementById('add-line-btn');
-    const saveBtn        = document.getElementById('save-quote-btn');
-    const cancelBtn      = document.getElementById('cancel-quote-btn');
+    const addLineBtn = document.getElementById('add-line-btn');
+    const cancelBtn = document.getElementById('cancel-quote-btn');
 
-    const totalHtSpan     = document.getElementById('total-ht');
-    const totalTvaSpan    = document.getElementById('total-tva');
-    const totalTtcSpan    = document.getElementById('total-ttc');
-    const totalCostSpan   = document.getElementById('total-cost');
+    const totalHtSpan = document.getElementById('total-ht');
+    const totalTvaSpan = document.getElementById('total-tva');
+    const totalTtcSpan = document.getElementById('total-ttc');
+    const totalCostSpan = document.getElementById('total-cost');
     const totalProfitSpan = document.getElementById('total-profit');
 
-    const clientInput   = document.getElementById('quote-client');
-    const dateInput     = document.getElementById('quote-date');
+    const clientInput = document.getElementById('quote-client');
+    const dateInput = document.getElementById('quote-date');
     const validityInput = document.getElementById('quote-validity');
-    const statusInput   = document.getElementById('quote-status');
+    const statusInput = document.getElementById('quote-status');
+    const expiryEl = document.getElementById('quote-expiry');
 
     function populateClientSelect() {
         const clients = loadData('mycraft_clients', []);
@@ -25,10 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             opt.textContent = c.name;
             clientInput.appendChild(opt);
         });
-    }
-
-    function formatEuro(amount) {
-        return amount.toFixed(2).replace('.', ',') + ' €';
     }
 
     function readVatRate(text) {
@@ -64,65 +59,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function recalculate() {
-        let totalHt   = 0;
-        let totalVat  = 0;
+        let totalHt = 0;
+        let totalVat = 0;
         let totalCost = 0;
 
         document.querySelectorAll('.quote-line').forEach((line) => {
-            const qty     = parseFloat(line.querySelector('.line-qty').value)   || 0;
-            const price   = parseFloat(line.querySelector('.line-price').value) || 0;
-            const rate    = readVatRate(line.querySelector('.line-vat').value);
-            const avgCost = parseFloat(line.dataset.avgcost)                    || 0;
-            const lineHt  = qty * price;
+            const qty = parseFloat(line.querySelector('.line-qty').value) || 0;
+            const price = parseFloat(line.querySelector('.line-price').value) || 0;
+            const rate = readVatRate(line.querySelector('.line-vat').value);
+            const avgCost = parseFloat(line.dataset.avgcost) || 0;
+            const lineHt = qty * price;
             line.querySelector('.line-total').textContent = formatEuro(lineHt);
-            totalHt   += lineHt;
-            totalVat  += lineHt * (rate / 100);
+            totalHt += lineHt;
+            totalVat += lineHt * (rate / 100);
             totalCost += qty * avgCost;
         });
 
-        const totalTtc    = totalHt + totalVat;
+        const totalTtc = totalHt + totalVat;
         const totalProfit = totalTtc - totalCost;
 
-        totalHtSpan.textContent     = formatEuro(totalHt);
-        totalTvaSpan.textContent    = formatEuro(totalVat);
-        totalTtcSpan.textContent    = formatEuro(totalTtc);
-        totalCostSpan.textContent   = formatEuro(totalCost);
+        totalHtSpan.textContent = formatEuro(totalHt);
+        totalTvaSpan.textContent = formatEuro(totalVat);
+        totalTtcSpan.textContent = formatEuro(totalTtc);
+        totalCostSpan.textContent = formatEuro(totalCost);
         totalProfitSpan.textContent = formatEuro(totalProfit);
         totalProfitSpan.style.color = totalProfit >= 0 ? '#1a7f37' : '#cc0000';
     }
 
+    function computeExpiry() {
+        if (!dateInput.value || !validityInput.value) return '';
+        const d = new Date(dateInput.value);
+        d.setDate(d.getDate() + parseInt(validityInput.value));
+        return d.toISOString().slice(0, 10);
+    }
+
+    function updateExpiryDisplay() {
+        const iso = computeExpiry();
+        if (!iso) { expiryEl.textContent = ''; return; }
+        const d = new Date(iso);
+        expiryEl.textContent = 'Expire le : ' + pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+    }
+
     function saveQuote() {
-        if (clientInput.value.trim() === '') {
-            alert('Merci d\'indiquer le nom du client.');
-            return;
-        }
+        const totalTtc = parseFloat(totalTtcSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
+        const totalCost = parseFloat(totalCostSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
 
-        const totalTtc = parseFloat(
-            totalTtcSpan.textContent.replace(' €', '').replace(',', '.')
-        ) || 0;
-        const totalCost = parseFloat(
-            totalCostSpan.textContent.replace(' €', '').replace(',', '.')
-        ) || 0;
-        const profit = totalTtc - totalCost;
-
-        let counter = loadData('mycraft_quote_counter', 0);
-        counter = counter + 1;
+        let counter = loadData('mycraft_quote_counter', 0) + 1;
         saveData('mycraft_quote_counter', counter);
 
-        const number = 'DEV-' + String(counter).padStart(4, '0');
-
-        const expiryDate = computeExpiry();
-
         const newQuote = {
-            number:     number,
-            client:     clientInput.value.trim(),
-            date:       dateInput.value || '(sans date)',
-            validity:   validityInput.value,
-            expiryDate: expiryDate,
-            status:     statusInput.value,
-            totalTtc:   totalTtc,
-            totalCost:  totalCost,
-            profit:     profit
+            number: 'DEV-' + String(counter).padStart(4, '0'),
+            client: clientInput.value.trim(),
+            date: dateInput.value || '(sans date)',
+            validity: validityInput.value,
+            expiryDate: computeExpiry(),
+            status: statusInput.value,
+            totalTtc: totalTtc,
+            totalCost: totalCost,
+            profit: totalTtc - totalCost
         };
 
         const quotes = loadData('mycraft_quotes', []);
@@ -133,19 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     addLineBtn.addEventListener('click', () => { addLine(); });
-
     linesContainer.addEventListener('input', recalculate);
+
     linesContainer.addEventListener('change', (e) => {
         if (e.target.classList.contains('line-catalog')) {
             const line = e.target.closest('.quote-line');
-            const idx  = e.target.value;
+            const idx = e.target.value;
             if (idx === '') {
                 line.dataset.avgcost = '0';
             } else {
                 const prestations = loadData('mycraft_catalog', []);
                 const p = prestations[parseInt(idx)];
                 if (p) {
-                    line.querySelector('.line-desc').value  = p.name;
+                    line.querySelector('.line-desc').value = p.name;
                     line.querySelector('.line-price').value = p.price;
                     const vatSelect = line.querySelector('.line-vat');
                     for (let i = 0; i < vatSelect.options.length; i++) {
@@ -168,37 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    dateInput.addEventListener('change', updateExpiryDisplay);
+    validityInput.addEventListener('input', updateExpiryDisplay);
+
     document.getElementById('quote-form').addEventListener('submit', (e) => {
         e.preventDefault();
         saveQuote();
     });
     cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
 
-    const expiryEl = document.getElementById('quote-expiry');
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    // Returns YYYY-MM-DD expiry date, or '' if inputs are missing.
-    function computeExpiry() {
-        if (!dateInput.value || !validityInput.value) return '';
-        const d = new Date(dateInput.value);
-        d.setDate(d.getDate() + parseInt(validityInput.value));
-        return d.toISOString().slice(0, 10);
-    }
-
-    function updateExpiryDisplay() {
-        const iso = computeExpiry();
-        if (!iso) { expiryEl.textContent = ''; return; }
-        const d = new Date(iso);
-        expiryEl.textContent = 'Expire le : ' + pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
-    }
-
-    dateInput.addEventListener('change', updateExpiryDisplay);
-    validityInput.addEventListener('input', updateExpiryDisplay);
-
     populateClientSelect();
-    // Default date = today
-    dateInput.value = MyCraft.now().toISOString().slice(0, 10);
+    dateInput.value = new Date().toISOString().slice(0, 10);
     updateExpiryDisplay();
     addLine();
     recalculate();

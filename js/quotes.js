@@ -1,17 +1,10 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    const signedCountSpan    = document.getElementById('signed-count');
+    const signedCountSpan = document.getElementById('signed-count');
     const notSignedCountSpan = document.getElementById('not-signed-count');
-    const newQuoteBtn        = document.getElementById('new-quote-btn');
-    const tbody              = document.getElementById('quotes-tbody');
-    const emptyMsg           = document.getElementById('quotes-empty');
-
-    function formatEuro(amount) {
-        return parseFloat(amount).toFixed(2).replace('.', ',') + ' €';
-    }
-
-    function pad(n) { return String(n).padStart(2, '0'); }
+    const newQuoteBtn = document.getElementById('new-quote-btn');
+    const tbody = document.getElementById('quotes-tbody');
+    const emptyMsg = document.getElementById('quotes-empty');
 
     function countSigned() {
         const quotes = loadData('mycraft_quotes', []);
@@ -28,26 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const q = quotes[index];
         if (!q) return;
 
-        let counter = loadData('mycraft_invoice_counter', 0);
-        counter = counter + 1;
+        let counter = loadData('mycraft_invoice_counter', 0) + 1;
         saveData('mycraft_invoice_counter', counter);
 
         const newInvoice = {
-            number:    'FAC-' + String(counter).padStart(4, '0'),
-            client:    q.client,
-            date:      new Date().toISOString().slice(0, 10),
-            due:       '',
-            status:    'À payer',
-            totalTtc:  q.totalTtc,
+            number: 'FAC-' + String(counter).padStart(4, '0'),
+            client: q.client,
+            date: new Date().toISOString().slice(0, 10),
+            due: '',
+            status: 'À payer',
+            totalTtc: q.totalTtc,
             totalCost: q.totalCost || 0,
-            profit:    q.profit    || 0
+            profit: q.profit || 0
         };
 
         const invoices = loadData('mycraft_invoices', []);
         invoices.push(newInvoice);
         saveData('mycraft_invoices', invoices);
 
-        // mark the quote as invoiced
         quotes[index].status = 'Facturé';
         saveData('mycraft_quotes', quotes);
 
@@ -72,11 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function showQuotes() {
         const quotes = loadData('mycraft_quotes', []);
 
-        // Update the counter cards
-        signedCountSpan.textContent    = countSigned();
+        signedCountSpan.textContent = countSigned();
         notSignedCountSpan.textContent = countNotSigned();
 
-        tbody.innerHTML = '';   // clear the table before rebuilding it
+        tbody.innerHTML = '';
 
         if (quotes.length === 0) {
             emptyMsg.style.display = 'block';
@@ -84,32 +74,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         emptyMsg.style.display = 'none';
 
-        const today = MyCraft.now();
+        const today = new Date();
 
         quotes.forEach((q, index) => {
-            // Expiry: red if past today and not yet invoiced
             let expiryDisplay = q.expiryDate || '—';
-            let expiryStyle   = '';
+            let expiryStyle = '';
             if (q.expiryDate && q.status !== 'Facturé') {
-                const expDate = new Date(q.expiryDate);
-                if (expDate < today) {
-                    const d = expDate;
-                    expiryDisplay = pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
-                    expiryStyle = 'color:#cc0000;font-weight:bold';
-                } else {
-                    const d = expDate;
-                    expiryDisplay = pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
-                }
+                const d = new Date(q.expiryDate);
+                expiryDisplay = pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+                if (d < today) expiryStyle = 'color:#cc0000;font-weight:bold';
             }
 
             const tr = document.createElement('tr');
             tr.innerHTML =
-                '<td>' + q.number + '</td>' +
-                '<td>' + q.client + '</td>' +
-                '<td>' + formatEuro(q.totalTtc) + '</td>' +
-                '<td>' + statusSelect(q.status, index) + '</td>' +
-                '<td>' + q.date + '</td>' +
-                '<td style="' + expiryStyle + '">' + expiryDisplay + '</td>' +
+                '<td data-label="N° Devis">' + q.number + '</td>' +
+                '<td data-label="Client">' + q.client + '</td>' +
+                '<td data-label="Montant TTC">' + formatEuro(q.totalTtc) + '</td>' +
+                '<td data-label="Statut">' + statusSelect(q.status, index) + '</td>' +
+                '<td data-label="Date">' + q.date + '</td>' +
+                '<td data-label="Expire le" style="' + expiryStyle + '">' + expiryDisplay + '</td>' +
                 '<td class="action-icons">' +
                     '<button type="button" class="delete-quote-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
@@ -125,20 +108,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function seedExample() {
-        if (localStorage.getItem('mycraft_quotes') === null) {
-            const example = [{
-                number:    'DEV-0001',
-                client:    'Dupont Jean',
-                date:      '2026-05-07',
-                validity:  '30',
-                status:    'Envoyé',
-                totalTtc:  1200,
-                totalCost: 600,
-                profit:    600
-            }];
-            saveData('mycraft_quotes', example);
-            saveData('mycraft_quote_counter', 1);
-        }
+        if (localStorage.getItem('mycraft_quotes') !== null) return;
+        saveData('mycraft_quotes', [{
+            number: 'DEV-0001',
+            client: 'Leroy Thomas',
+            date: '2026-05-07',
+            validity: '30',
+            status: 'Envoyé',
+            totalTtc: 1200,
+            totalCost: 600,
+            profit: 600
+        }]);
+        saveData('mycraft_quote_counter', 1);
     }
 
     if (newQuoteBtn) {
@@ -167,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!btn) return;
         const index = parseInt(btn.dataset.index);
         const quotes = loadData('mycraft_quotes', []);
-        quotes.splice(index, 1);   // remove 1 item at position "index"
+        quotes.splice(index, 1);
         saveData('mycraft_quotes', quotes);
         showQuotes();
     });

@@ -1,11 +1,10 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    const newBtn      = document.getElementById('new-client-btn');
-    const countSpan   = document.getElementById('clients-count');
+    const newBtn = document.getElementById('new-client-btn');
+    const countSpan = document.getElementById('clients-count');
     const searchInput = document.getElementById('client-search');
-    const grid        = document.getElementById('clients-grid');
-    const emptyMsg    = document.getElementById('clients-empty');
+    const grid = document.getElementById('clients-grid');
+    const emptyMsg = document.getElementById('clients-empty');
 
     const personIcon =
         '<svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5">' +
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const term = searchInput.value.toLowerCase();
 
         countSpan.textContent = clients.length;
-        grid.innerHTML = '';   // clear the grid before rebuilding it
+        grid.innerHTML = '';
 
         let found = false;
         clients.forEach((c, i) => {
@@ -37,16 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function seedExample() {
-        if (localStorage.getItem('mycraft_clients') === null) {
-            const example = [{
-                name:    'Dupont Jean',
-                type:    'Particulier',
-                email:   'jean.dupont@email.fr',
-                phone:   '+33 6 11 22 33 44',
-                address: '12 avenue des Tilleuls, Antibes'
-            }];
-            saveData('mycraft_clients', example);
-        }
+        if (localStorage.getItem('mycraft_clients') !== null) return;
+        saveData('mycraft_clients', [{
+            name: 'Martin Sophie',
+            type: 'Particulier',
+            email: 'sophie.martin@email.fr',
+            phone: '+33 6 55 44 33 22',
+            address: '8 rue des Lilas, Nice'
+        }]);
     }
 
     if (newBtn) {
@@ -58,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', showClients);
 
     grid.addEventListener('click', (e) => {
-        if (e.target.classList.contains('delete-client-btn')) {
-            const index = parseInt(e.target.dataset.index);
-            const clients = loadData('mycraft_clients', []);
-            clients.splice(index, 1);   // remove 1 item at position "index"
-            saveData('mycraft_clients', clients);
-            showClients();
-        }
+        const btn = e.target.closest('.delete-client-btn');
+        if (!btn) return;
+        const index = parseInt(btn.dataset.index);
+        const clients = loadData('mycraft_clients', []);
+        clients.splice(index, 1);
+        saveData('mycraft_clients', clients);
+        showClients();
     });
 
     seedExample();
