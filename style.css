@@ -438,7 +438,7 @@ footer {
     margin-top: 25px;
     font-size: 14px;
 }
-/* ---- Ajouts : champs editables de la page Settings ---- */
+
 .settings-input {
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -597,4 +597,95 @@ footer {
     color: #666;
     margin-top: 4px;
     min-height: 18px;
+}
+
+
+@media (max-width: 1024px) {
+    /* Grilles de cartes : 4 colonnes → 2 colonnes */
+    .grid-row,
+    .top-stats,
+    .bottom-actions {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .cards-row {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    .cards-row .card {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 600px) {
+    /* Grilles de cartes : 1 colonne */
+    .grid-row,
+    .top-stats,
+    .bottom-actions {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .cards-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .cards-row .card {
+        width: 100%;
+    }
+
+    
+    .sidebar {
+        left: -250px; 
+        overflow-y: auto;
+    }
+
+    .sidebar.open {
+        left: 0;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.25);
+    }
+
+    
+    .main-content {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+   
+    #menu-btn {
+        display: inline-flex;
+    }
+
+    
+    .topbar {
+        padding: 10px 15px;
+    }
+
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    
+    .data-table {
+        font-size: 12px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 7px 8px;
+    }
 }

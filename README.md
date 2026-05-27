@@ -155,3 +155,32 @@ Several form and table improvements across quotes and invoices.
 - **Fix form redirect**: `saveBtn click` replaced by `form submit` +
   `e.preventDefault()` in both new-quote and new-invoice so the browser no
   longer reloads the form page after saving.
+
+### Step 12
+
+Added CSS media queries to `style.css` to make the layout fully responsive on
+tablet and mobile, without touching the HTML structure or JavaScript.
+
+**Tablet (≤ 1024 px)**
+
+- Card grids (`.grid-row`, `.top-stats`, `.bottom-actions`) switch from 4
+  columns to 2 columns (`grid-template-columns: repeat(2, 1fr)`).
+- `.cards-row` becomes wrapping (`flex-wrap: wrap`) and each card takes 50 % of
+  the row width.
+
+**Mobile (≤ 600 px)**
+
+- All card grids collapse to a single column.
+- `.cards-row` switches to a vertical column (`flex-direction: column`) with
+  cards stretching to full width.
+- The sidebar (`.sidebar`) is already hidden off-screen by default (`left:
+  -250 px`) and slides in as an overlay when the `.open` class is toggled by
+  the existing `#menu-btn` handler in `app.js`. A drop shadow is added to the
+  open state to visually separate it from the content.
+- `.main-content` is confirmed at full width with reduced padding (`20 px 15 px`
+  instead of `40 px`).
+- `#menu-btn` is explicitly kept visible (`display: inline-flex`) so the
+  hamburger icon is always accessible on small screens.
+- `.topbar` padding, `.page-header` layout, `.form-grid` columns, and
+  `.data-table` font size / cell padding are all reduced for comfort on small
+  screens.
