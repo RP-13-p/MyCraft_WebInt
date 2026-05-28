@@ -78,3 +78,10 @@ which also benefits list pages (quotes, invoices) when tables are long.
 The clock card no longer uses `aspect-ratio: 1/1` — it is now a fixed 130 × 130 px circle,
 preventing it from stretching the row to hundreds of pixels. Padding, gap and margins were
 tightened so both dashboard rows fit on a standard laptop screen without scrolling.
+
+
+Next steps :
+
+- access to each items (clients informations, invoices informations,...)
+- modification of items
+- validation W3C
