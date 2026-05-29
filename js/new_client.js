@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nameInput = document.getElementById('client-name');
     const typeInput = document.getElementById('client-type');
+    const siretInput = document.getElementById('client-siret');
+    const siretGroup = document.getElementById('siret-group');
     const emailInput = document.getElementById('client-email');
     const phoneInput = document.getElementById('client-phone');
     const addressInput = document.getElementById('client-address');
@@ -10,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveBtn = document.getElementById('save-client-btn');
     const cancelBtn = document.getElementById('cancel-client-btn');
+
+    typeInput.addEventListener('change', () => {
+        siretGroup.style.display = typeInput.value === 'Professionnel' ? '' : 'none';
+    });
 
     let lat = null;
     let lng = null;
@@ -78,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newClient = {
             name: nameInput.value.trim(),
             type: typeInput.value,
+            siret: typeInput.value === 'Professionnel' ? siretInput.value.trim() : '',
             email: emailInput.value.trim(),
             phone: phoneInput.value.trim(),
             address: addressInput.value.trim(),

@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nameInput = document.getElementById('client-name');
     const typeInput = document.getElementById('client-type');
+    const siretInput = document.getElementById('client-siret');
+    const siretGroup = document.getElementById('siret-group');
     const emailInput = document.getElementById('client-email');
     const phoneInput = document.getElementById('client-phone');
     const addressInput = document.getElementById('client-address');
@@ -34,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nameInput.value = client.name;
     typeInput.value = client.type || 'Particulier';
+    siretInput.value = client.siret || '';
+    siretGroup.style.display = client.type === 'Professionnel' ? '' : 'none';
     emailInput.value = client.email || '';
     phoneInput.value = client.phone || '';
     addressInput.value = client.address || '';
@@ -89,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    typeInput.addEventListener('change', () => {
+        siretGroup.style.display = typeInput.value === 'Professionnel' ? '' : 'none';
+    });
+
     addressInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => geocodeAddress(addressInput.value), 800);
@@ -97,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modifyBtn.addEventListener('click', () => {
         nameInput.disabled = false;
         typeInput.disabled = false;
+        siretInput.disabled = false;
         emailInput.disabled = false;
         phoneInput.disabled = false;
         addressInput.disabled = false;
@@ -114,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allClients[index] = {
             name: nameInput.value.trim(),
             type: typeInput.value,
+            siret: typeInput.value === 'Professionnel' ? siretInput.value.trim() : '',
             email: emailInput.value.trim(),
             phone: phoneInput.value.trim(),
             address: addressInput.value.trim(),

@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         employees: document.getElementById('set-employees')
     };
 
-    const checkEmail = document.getElementById('email-notifications');
-    const checkSms = document.getElementById('sms-notifications');
-    const checkNews = document.getElementById('news');
-
     const saveBtn = document.getElementById('save-settings-btn');
     const savedMsg = document.getElementById('settings-saved-msg');
 
@@ -23,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const name in fields) {
             if (data[name] !== undefined) fields[name].value = data[name];
         }
-        checkEmail.checked = data.notifEmail;
-        checkSms.checked = data.notifSms;
-        checkNews.checked = data.notifNews;
     }
 
     saveBtn.addEventListener('click', () => {
@@ -38,9 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
             siret: fields.siret.value,
             sector: fields.sector.value,
             employees: fields.employees.value,
-            notifEmail: checkEmail.checked,
-            notifSms: checkSms.checked,
-            notifNews: checkNews.checked
         };
 
         saveData('mycraft_settings', newData);

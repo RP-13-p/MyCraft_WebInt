@@ -91,9 +91,4 @@ Invoice and quote detail pages include the full line items section: existing lin
 - Line items are now saved in localStorage when creating invoices and quotes (`lines` array), so they can be recovered on the detail page.
 - Fixed a bug where a Leaflet error inside the geocoding `.then()` callback would propagate to `.catch()` and display a misleading network error message.
 
-Next steps :
 
-
-- adding SIRET si client = professionel
-- remove securité et preferences dans reglages
-- validation W3C
