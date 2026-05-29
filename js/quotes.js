@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<option selected>Facturé</option>' +
             '</select>';
         }
-        const opts = ['Envoyé', 'Signé', 'Validé'];
+        const opts = ['Brouillon', 'Envoyé', 'Signé', 'Validé'];
         let html = '<select class="status-select table-status-select" data-index="' + index + '">';
         opts.forEach(o => {
             html += '<option' + (o === current ? ' selected' : '') + '>' + o + '</option>';
