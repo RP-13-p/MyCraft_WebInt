@@ -1,0 +1,132 @@
+@media print {
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    /* Cache toute l'interface */
+    .topbar,
+    .sidebar,
+    footer,
+    .page-header,
+    .form-actions,
+    button,
+    #add-line-btn {
+        display: none !important;
+    }
+
+    .app-layout {
+        display: block;
+    }
+
+    .main-content {
+        padding: 0;
+        overflow: visible;
+    }
+
+    .main-content > *:not(.print-document) {
+        display: none !important;
+    }
+
+    /* Document */
+    .print-document {
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        color: black;
+        background: white;
+    }
+
+    /* En-tête */
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid black;
+        padding-bottom: 8mm;
+        margin-bottom: 8mm;
+    }
+
+    .print-company-name {
+        font-size: 18pt;
+        font-weight: bold;
+    }
+
+    .print-company-info {
+        text-align: right;
+        font-size: 9pt;
+        line-height: 1.6;
+    }
+
+    /* Bloc client + infos document */
+    .print-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8mm;
+    }
+
+    .print-doc-title {
+        font-size: 14pt;
+        font-weight: bold;
+        margin-bottom: 3mm;
+    }
+
+    .print-client p,
+    .print-doc-info p {
+        margin: 1mm 0;
+        font-size: 10pt;
+    }
+
+    /* Tableau des lignes */
+    .print-lines {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 6mm;
+    }
+
+    .print-lines th,
+    .print-lines td {
+        border: 1px solid black;
+        padding: 2mm 3mm;
+        font-size: 10pt;
+    }
+
+    .print-lines thead th {
+        font-weight: bold;
+    }
+
+    .print-lines .num {
+        text-align: right;
+    }
+
+    /* Totaux */
+    .print-totals {
+        width: 70mm;
+        margin-left: auto;
+        margin-bottom: 8mm;
+    }
+
+    .print-totals p {
+        display: flex;
+        justify-content: space-between;
+        margin: 1mm 0;
+        font-size: 10pt;
+    }
+
+    .print-total-ttc {
+        font-weight: bold;
+        border-top: 1px solid black;
+        padding-top: 2mm;
+        margin-top: 2mm !important;
+    }
+
+    /* Mentions légales */
+    .print-legal {
+        border-top: 1px solid black;
+        padding-top: 3mm;
+        margin-top: 12mm;
+        font-size: 8pt;
+        line-height: 1.5;
+    }
+
+}

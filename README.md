@@ -80,6 +80,14 @@ preventing it from stretching the row to hundreds of pixels. Padding, gap and ma
 tightened so both dashboard rows fit on a standard laptop screen without scrolling.
 
 
+### Step 15
+
+Added browser-print PDF generation (no external library).
+`pdf.css` contains only `@media print` rules: A4 format, 15mm margins, hides all UI, styles `.print-document` as a proper French invoice layout (company header, client block, line items table, totals, legal mentions).
+`js/print.js` exposes `buildPrintData(doc, type)` which assembles a structured object from the document and company settings (localStorage).
+`printInvoice()` and `printQuote()` are defined in their respective detail scripts and call `window.print()`.
+`print_preview.html` is a standalone static file for visual inspection before pushing.
+
 ### Step 14
 
 Added detail pages for clients, invoices and quotes.
