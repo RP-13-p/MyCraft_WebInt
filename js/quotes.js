@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('mycraft_quotes') !== null) return;
         saveData('mycraft_quotes', [{
             number: 'DEV-0001',
-            client: 'Leroy Thomas',
+            client: 'Raphael Troncy',
             date: '2026-05-07',
             validity: '30',
             status: 'Envoyé',

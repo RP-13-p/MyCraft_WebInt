@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('mycraft_catalog') !== null) return;
         saveData('mycraft_catalog', [
             { name: 'Remplacement robinet', category: 'Plomberie', price: 50, tax: 20, avgCost: 26 },
-            { name: 'Installation électrique', category: 'Électricité', price: 80, tax: 20, avgCost: 40 }
+            { name: 'Remplacement interrupteur', category: 'Électricité', price: 80, tax: 20, avgCost: 40 }
         ]);
     }
 

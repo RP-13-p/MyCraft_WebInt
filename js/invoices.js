@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('mycraft_invoices') !== null) return;
         saveData('mycraft_invoices', [{
             number: 'FAC-0001',
-            client: 'Leroy Thomas',
+            client: 'Pasquale Lissena',
             date: '2026-05-07',
             due: '2026-06-07',
             status: 'À payer',
