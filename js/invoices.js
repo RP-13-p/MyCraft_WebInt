@@ -69,6 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<td data-label="Statut">' + statusSelect(inv.status, index) + '</td>' +
                 '<td data-label="Échéance" style="' + dueStyle + '">' + inv.due + '</td>' +
                 '<td class="action-icons">' +
+                    '<button type="button" class="print-invoice-btn action-icon-btn" data-index="' + index + '">' +
+                        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
+                            '<polyline points="6 9 6 2 18 2 18 9"/>' +
+                            '<path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>' +
+                            '<rect x="6" y="14" width="12" height="8"/>' +
+                        '</svg>' +
+                    '</button>' +
                     '<button type="button" class="delete-invoice-btn action-icon-btn" data-index="' + index + '">' +
                         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">' +
                             '<polyline points="3 6 5 6 21 6"/>' +
@@ -121,6 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
             invoices.splice(index, 1);
             saveData('mycraft_invoices', invoices);
             showInvoices();
+            return;
+        }
+        const printBtn = e.target.closest('.print-invoice-btn');
+        if (printBtn) {
+            window.location.href = 'invoice_detail.html?index=' + printBtn.dataset.index + '&print=1';
             return;
         }
         if (e.target.closest('.status-select')) return;
