@@ -180,6 +180,10 @@ a {
 }
 
 
+.bottom-actions {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .bottom-actions .card {
     padding: 12px 15px;
 }
@@ -187,18 +191,6 @@ a {
 .bottom-actions .card h2 {
     font-size: 13px;
     margin-bottom: 6px;
-}
-
-.warning-card {
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: left;
-}
-
-.warning-card ul {
-    margin-top: 8px;
-    line-height: 1.6;
-    font-size: 13px;
 }
 
 .action-card {
@@ -214,14 +206,6 @@ a {
     width: 52px;
     height: 52px;
     cursor: pointer;
-}
-
-.export-formats {
-    margin-top: 8px;
-    border: 1px solid #000;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 12px;
 }
 
 footer {
