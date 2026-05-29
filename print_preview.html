@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aperçu impression</title>
+    <link rel="stylesheet" href="pdf.css">
+    <style>
+        body {
+            background: #888;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+        }
+
+        .print-document {
+            display: block;
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+            color: black;
+        }
+
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid black;
+            padding-bottom: 8mm;
+            margin-bottom: 6mm;
+        }
+
+        .print-issuer { font-size: 9pt; line-height: 1.6; }
+        .print-company-name { font-size: 18pt; font-weight: bold; display: block; margin-bottom: 2mm; }
+        .print-recipient { text-align: right; font-size: 10pt; line-height: 1.6; }
+
+        .print-doc-info { margin-bottom: 6mm; }
+        .print-doc-title { font-size: 14pt; font-weight: bold; margin-bottom: 3mm; }
+        .print-doc-info p { margin: 1mm 0; font-size: 10pt; }
+
+        .print-lines { width: 100%; border-collapse: collapse; margin-bottom: 6mm; }
+        .print-lines th, .print-lines td { border: 1px solid black; padding: 2mm 3mm; font-size: 10pt; }
+        .print-lines thead th { font-weight: bold; }
+        .print-lines .num { text-align: right; }
+
+        .print-totals { width: 70mm; margin-left: auto; margin-bottom: 8mm; }
+        .print-totals p { display: flex; justify-content: space-between; margin: 1mm 0; font-size: 10pt; }
+        .print-total-ttc { font-weight: bold; border-top: 1px solid black; padding-top: 2mm; margin-top: 2mm; }
+
+        .print-legal { border-top: 1px solid black; padding-top: 3mm; margin-top: 12mm; font-size: 8pt; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div class="print-document">
+
+    <div class="print-header">
+        <div class="print-issuer">
+            <span class="print-company-name">Artisan Pro SARL</span>
+            <p>123 rue d'Eurecom, Sophia Antipolis</p>
+            <p>SIRET : 12345678901234</p>
+            <p>contact@craft.fr</p>
+            <p>+33 6 12 34 56 78</p>
+        </div>
+        <div class="print-recipient">
+            <p><strong>Facturé à</strong></p>
+            <p>Martin Sophie</p>
+            <p>8 rue des Lilas, Nice</p>
+        </div>
+    </div>
+
+    <div class="print-doc-info">
+        <p class="print-doc-title">FACTURE N° FAC-0001</p>
+        <p>Date : 07/05/2026</p>
+        <p>Échéance : 07/06/2026</p>
+        <p>Statut : À payer</p>
+    </div>
+
+    <table class="print-lines">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th class="num">Qté</th>
+                <th class="num">Prix HT</th>
+                <th class="num">TVA</th>
+                <th class="num">Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Remplacement robinet</td>
+                <td class="num">2</td>
+                <td class="num">50,00 €</td>
+                <td class="num">20%</td>
+                <td class="num">100,00 €</td>
+            </tr>
+            <tr>
+                <td>Installation électrique</td>
+                <td class="num">1</td>
+                <td class="num">80,00 €</td>
+                <td class="num">20%</td>
+                <td class="num">80,00 €</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="print-totals">
+        <p><span>Total HT</span><span>180,00 €</span></p>
+        <p><span>TVA (20%)</span><span>36,00 €</span></p>
+        <p class="print-total-ttc"><span>Total TTC</span><span>216,00 €</span></p>
+    </div>
+
+    <div class="print-legal">
+        <p>Artisan Pro SARL — SIRET : 12345678901234 — 123 rue d'Eurecom, Sophia Antipolis</p>
+        <p>Paiement à réception de facture. En cas de retard, pénalités au taux légal en vigueur.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

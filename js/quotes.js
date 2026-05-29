@@ -164,7 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const printBtn = e.target.closest('.print-quote-btn');
         if (printBtn) {
-            window.location.href = 'quote_detail.html?index=' + printBtn.dataset.index + '&print=1';
+            const idx = parseInt(printBtn.dataset.index);
+            const q = loadData('mycraft_quotes', [])[idx];
+            if (q) {
+                document.getElementById('print-document').innerHTML = buildPrintHTML(q, 'quote');
+                window.print();
+            }
             return;
         }
         if (e.target.closest('.status-select')) return;

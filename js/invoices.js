@@ -132,7 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const printBtn = e.target.closest('.print-invoice-btn');
         if (printBtn) {
-            window.location.href = 'invoice_detail.html?index=' + printBtn.dataset.index + '&print=1';
+            const idx = parseInt(printBtn.dataset.index);
+            const inv = loadData('mycraft_invoices', [])[idx];
+            if (inv) {
+                document.getElementById('print-document').innerHTML = buildPrintHTML(inv, 'invoice');
+                window.print();
+            }
             return;
         }
         if (e.target.closest('.status-select')) return;

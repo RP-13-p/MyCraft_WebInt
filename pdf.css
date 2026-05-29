@@ -5,7 +5,6 @@
         margin: 15mm;
     }
 
-    /* Cache toute l'interface */
     .topbar,
     .sidebar,
     footer,
@@ -29,40 +28,43 @@
         display: none !important;
     }
 
-    /* Document */
     .print-document {
+        display: block;
         font-family: Arial, sans-serif;
         font-size: 10pt;
         color: black;
         background: white;
     }
 
-    /* En-tête */
     .print-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         border-bottom: 1px solid black;
         padding-bottom: 8mm;
-        margin-bottom: 8mm;
+        margin-bottom: 6mm;
+    }
+
+    .print-issuer {
+        font-size: 9pt;
+        line-height: 1.6;
     }
 
     .print-company-name {
         font-size: 18pt;
         font-weight: bold;
+        display: block;
+        margin-bottom: 2mm;
     }
 
-    .print-company-info {
+    .print-recipient {
         text-align: right;
-        font-size: 9pt;
+        font-size: 10pt;
         line-height: 1.6;
     }
 
-    /* Bloc client + infos document */
-    .print-meta {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8mm;
+    .print-doc-info {
+        margin-bottom: 6mm;
     }
 
     .print-doc-title {
@@ -71,13 +73,11 @@
         margin-bottom: 3mm;
     }
 
-    .print-client p,
     .print-doc-info p {
         margin: 1mm 0;
         font-size: 10pt;
     }
 
-    /* Tableau des lignes */
     .print-lines {
         width: 100%;
         border-collapse: collapse;
@@ -99,7 +99,6 @@
         text-align: right;
     }
 
-    /* Totaux */
     .print-totals {
         width: 70mm;
         margin-left: auto;
@@ -120,7 +119,6 @@
         margin-top: 2mm !important;
     }
 
-    /* Mentions légales */
     .print-legal {
         border-top: 1px solid black;
         padding-top: 3mm;
