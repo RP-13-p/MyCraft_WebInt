@@ -82,6 +82,7 @@ tightened so both dashboard rows fit on a standard laptop screen without scrolli
 
 Next steps :
 
-- access to each items (clients informations, invoices informations,...)
-- modification of items
+
+- adding SIRET si client = professionel
+- remove securité et preferences dans reglages
 - validation W3C

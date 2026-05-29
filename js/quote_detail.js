@@ -1,8 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const params = new URLSearchParams(window.location.search);
+    const index = parseInt(params.get('index'));
+
+    const quotes = loadData('mycraft_quotes', []);
+    const quote = quotes[index];
+
+    if (!quote) {
+        window.location.href = 'quotes.html';
+        return;
+    }
+
+    const pageTitle = document.getElementById('page-title');
+    const numberInput = document.getElementById('quote-number');
+    const clientSelect = document.getElementById('quote-client');
+    const dateInput = document.getElementById('quote-date');
+    const validityInput = document.getElementById('quote-validity');
+    const statusSelect = document.getElementById('quote-status');
+    const expiryEl = document.getElementById('quote-expiry');
     const linesContainer = document.getElementById('quote-lines');
     const addLineBtn = document.getElementById('add-line-btn');
-    const cancelBtn = document.getElementById('cancel-quote-btn');
 
     const totalHtSpan = document.getElementById('total-ht');
     const totalTvaSpan = document.getElementById('total-tva');
@@ -10,11 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCostSpan = document.getElementById('total-cost');
     const totalProfitSpan = document.getElementById('total-profit');
 
-    const clientInput = document.getElementById('quote-client');
-    const dateInput = document.getElementById('quote-date');
-    const validityInput = document.getElementById('quote-validity');
-    const statusInput = document.getElementById('quote-status');
-    const expiryEl = document.getElementById('quote-expiry');
+    const modifyBtn = document.getElementById('modify-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+
+    pageTitle.textContent = quote.number;
+    numberInput.value = quote.number;
 
     function populateClientSelect() {
         const clients = loadData('mycraft_clients', []);
@@ -22,8 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const opt = document.createElement('option');
             opt.value = c.name;
             opt.textContent = c.name;
-            clientInput.appendChild(opt);
+            clientSelect.appendChild(opt);
         });
+        clientSelect.value = quote.client;
+        if (!clientSelect.value) {
+            clientSelect.options[0].value = quote.client;
+            clientSelect.options[0].textContent = quote.client;
+            clientSelect.value = quote.client;
+        }
     }
 
     function readVatRate(text) {
@@ -39,23 +63,37 @@ document.addEventListener('DOMContentLoaded', () => {
         return opts;
     }
 
-    function addLine() {
+    function addLine(lineData, disabled) {
         const line = document.createElement('div');
         line.className = 'quote-line';
+        line.dataset.avgcost = lineData ? String(lineData.avgCost || 0) : '0';
         line.innerHTML =
-            '<select class="line-catalog">' + buildCatalogOptions() + '</select>' +
-            '<input type="text" class="line-desc" placeholder="Intitulé">' +
-            '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
-            '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
-            '<select class="line-vat">' +
+            '<select class="line-catalog"' + (disabled ? ' disabled' : '') + '>' + buildCatalogOptions() + '</select>' +
+            '<input type="text" class="line-desc" placeholder="Intitulé"' + (disabled ? ' disabled' : '') + '>' +
+            '<input type="number" class="line-qty" value="1" min="0" step="0.5"' + (disabled ? ' disabled' : '') + '>' +
+            '<input type="number" class="line-price" value="0" min="0" step="0.01"' + (disabled ? ' disabled' : '') + '>' +
+            '<select class="line-vat"' + (disabled ? ' disabled' : '') + '>' +
                 '<option>20%</option>' +
                 '<option>10%</option>' +
                 '<option>5,5%</option>' +
                 '<option>0%</option>' +
             '</select>' +
             '<span class="line-total">0,00 €</span>' +
-            '<button type="button" class="remove-line-btn">✕</button>';
+            '<button type="button" class="remove-line-btn" style="' + (disabled ? 'display:none' : '') + '">✕</button>';
         linesContainer.appendChild(line);
+
+        if (lineData) {
+            line.querySelector('.line-desc').value = lineData.desc || '';
+            line.querySelector('.line-qty').value = lineData.qty !== undefined ? lineData.qty : 1;
+            line.querySelector('.line-price').value = lineData.price != null ? lineData.price : 0;
+            const vatSelect = line.querySelector('.line-vat');
+            for (let i = 0; i < vatSelect.options.length; i++) {
+                if (vatSelect.options[i].text === lineData.vat) {
+                    vatSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
     }
 
     function recalculate() {
@@ -63,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let totalVat = 0;
         let totalCost = 0;
 
-        document.querySelectorAll('.quote-line').forEach((line) => {
+        linesContainer.querySelectorAll('.quote-line').forEach(line => {
             const qty = parseFloat(line.querySelector('.line-qty').value) || 0;
             const price = parseFloat(line.querySelector('.line-price').value) || 0;
             const rate = readVatRate(line.querySelector('.line-vat').value);
@@ -102,10 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveQuote() {
         const totalTtc = parseFloat(totalTtcSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
-        const totalCost = parseFloat(totalCostSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
+        const totalCostVal = parseFloat(totalCostSpan.textContent.replace(' €', '').replace(',', '.')) || 0;
 
         const lines = [];
-        document.querySelectorAll('.quote-line').forEach(line => {
+        linesContainer.querySelectorAll('.quote-line').forEach(line => {
             lines.push({
                 desc: line.querySelector('.line-desc').value,
                 qty: parseFloat(line.querySelector('.line-qty').value) || 0,
@@ -115,30 +153,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        let counter = loadData('mycraft_quote_counter', 0) + 1;
-        saveData('mycraft_quote_counter', counter);
+        const allQuotes = loadData('mycraft_quotes', []);
+        allQuotes[index].client = clientSelect.value;
+        allQuotes[index].date = dateInput.value || '(sans date)';
+        allQuotes[index].validity = validityInput.value;
+        allQuotes[index].status = statusSelect.value;
+        allQuotes[index].totalTtc = totalTtc;
+        allQuotes[index].totalCost = totalCostVal;
+        allQuotes[index].profit = totalTtc - totalCostVal;
+        allQuotes[index].lines = lines;
 
-        const newQuote = {
-            number: 'DEV-' + String(counter).padStart(4, '0'),
-            client: clientInput.value.trim(),
-            date: dateInput.value || '(sans date)',
-            validity: validityInput.value,
-            expiryDate: computeExpiry(),
-            status: statusInput.value,
-            totalTtc: totalTtc,
-            totalCost: totalCost,
-            profit: totalTtc - totalCost,
-            lines: lines
-        };
+        if (dateInput.value && validityInput.value) {
+            allQuotes[index].expiryDate = computeExpiry();
+        }
 
-        const quotes = loadData('mycraft_quotes', []);
-        quotes.push(newQuote);
-        saveData('mycraft_quotes', quotes);
-
+        saveData('mycraft_quotes', allQuotes);
         window.location.href = 'quotes.html';
     }
 
-    addLineBtn.addEventListener('click', () => { addLine(); });
+    populateClientSelect();
+
+    if (quote.date && quote.date !== '(sans date)') {
+        dateInput.value = quote.date;
+    }
+    validityInput.value = quote.validity || '';
+    statusSelect.value = quote.status;
+    updateExpiryDisplay();
+
+    if (quote.lines && quote.lines.length > 0) {
+        quote.lines.forEach(l => addLine(l, true));
+    } else {
+        addLine(null, true);
+    }
+    recalculate();
+
+    if (quote.status === 'Facturé') {
+        modifyBtn.style.display = 'none';
+    }
+
+    addLineBtn.addEventListener('click', () => { addLine(null, false); recalculate(); });
+
     linesContainer.addEventListener('input', recalculate);
 
     linesContainer.addEventListener('change', (e) => {
@@ -177,15 +231,25 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.addEventListener('change', updateExpiryDisplay);
     validityInput.addEventListener('input', updateExpiryDisplay);
 
-    document.getElementById('quote-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        saveQuote();
-    });
-    cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
+    modifyBtn.addEventListener('click', () => {
+        clientSelect.disabled = false;
+        dateInput.disabled = false;
+        validityInput.disabled = false;
+        statusSelect.disabled = false;
 
-    populateClientSelect();
-    dateInput.value = new Date().toISOString().slice(0, 10);
-    updateExpiryDisplay();
-    addLine();
-    recalculate();
+        linesContainer.querySelectorAll('input, select').forEach(el => {
+            el.disabled = false;
+        });
+        linesContainer.querySelectorAll('.remove-line-btn').forEach(btn => {
+            btn.style.display = '';
+        });
+
+        addLineBtn.style.display = '';
+        modifyBtn.style.display = 'none';
+        saveBtn.style.display = '';
+    });
+
+    saveBtn.addEventListener('click', saveQuote);
+
+    cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });
 });

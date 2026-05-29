@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const params = new URLSearchParams(window.location.search);
+    const index = parseInt(params.get('index'));
+
+    const clients = loadData('mycraft_clients', []);
+    const client = clients[index];
+
+    if (!client) {
+        window.location.href = 'clients.html';
+        return;
+    }
+
     const nameInput = document.getElementById('client-name');
     const typeInput = document.getElementById('client-type');
     const emailInput = document.getElementById('client-email');
@@ -7,15 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const addressInput = document.getElementById('client-address');
     const geoStatus = document.getElementById('geo-status');
     const mapEl = document.getElementById('client-map');
+    const pageTitle = document.getElementById('page-title');
 
-    const saveBtn = document.getElementById('save-client-btn');
-    const cancelBtn = document.getElementById('cancel-client-btn');
+    const modifyBtn = document.getElementById('modify-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
 
-    let lat = null;
-    let lng = null;
+    let lat = client.lat || null;
+    let lng = client.lng || null;
     let map = null;
     let marker = null;
     let debounceTimer = null;
+
+    pageTitle.textContent = client.name;
+
+    nameInput.value = client.name;
+    typeInput.value = client.type || 'Particulier';
+    emailInput.value = client.email || '';
+    phoneInput.value = client.phone || '';
+    addressInput.value = client.address || '';
+
+    if (lat && lng) {
+        showMap(lat, lng);
+    }
 
     function showMap(latVal, lngVal) {
         mapEl.style.display = 'block';
@@ -69,13 +94,24 @@ document.addEventListener('DOMContentLoaded', () => {
         debounceTimer = setTimeout(() => geocodeAddress(addressInput.value), 800);
     });
 
-    function saveClient() {
+    modifyBtn.addEventListener('click', () => {
+        nameInput.disabled = false;
+        typeInput.disabled = false;
+        emailInput.disabled = false;
+        phoneInput.disabled = false;
+        addressInput.disabled = false;
+        modifyBtn.style.display = 'none';
+        saveBtn.style.display = '';
+    });
+
+    saveBtn.addEventListener('click', () => {
         if (nameInput.value.trim() === '') {
             alert('Merci d\'indiquer le nom du client.');
             return;
         }
 
-        const newClient = {
+        const allClients = loadData('mycraft_clients', []);
+        allClients[index] = {
             name: nameInput.value.trim(),
             type: typeInput.value,
             email: emailInput.value.trim(),
@@ -84,15 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             lat: lat,
             lng: lng
         };
-
-        const clients = loadData('mycraft_clients', []);
-        clients.push(newClient);
-        saveData('mycraft_clients', clients);
-
+        saveData('mycraft_clients', allClients);
         window.location.href = 'clients.html';
-    }
-
-    saveBtn.addEventListener('click', saveClient);
+    });
 
     cancelBtn.addEventListener('click', () => {
         window.location.href = 'clients.html';

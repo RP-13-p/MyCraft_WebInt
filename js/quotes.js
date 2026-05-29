@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const tr = document.createElement('tr');
+            tr.dataset.index = index;
+            tr.style.cursor = 'pointer';
             tr.innerHTML =
                 '<td data-label="N° Devis">' + q.number + '</td>' +
                 '<td data-label="Client">' + q.client + '</td>' +
@@ -145,12 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tbody.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-quote-btn');
-        if (!btn) return;
-        const index = parseInt(btn.dataset.index);
-        const quotes = loadData('mycraft_quotes', []);
-        quotes.splice(index, 1);
-        saveData('mycraft_quotes', quotes);
-        showQuotes();
+        if (btn) {
+            const index = parseInt(btn.dataset.index);
+            const quotes = loadData('mycraft_quotes', []);
+            quotes.splice(index, 1);
+            saveData('mycraft_quotes', quotes);
+            showQuotes();
+            return;
+        }
+        if (e.target.closest('.status-select')) return;
+        const tr = e.target.closest('tr');
+        if (tr && tr.dataset.index !== undefined) {
+            window.location.href = 'quote_detail.html?index=' + tr.dataset.index;
+        }
     });
 
     seedExample();

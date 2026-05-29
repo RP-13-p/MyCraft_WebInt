@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
             found = true;
             const card = document.createElement('article');
             card.className = 'client-card';
+            card.dataset.index = i;
+            card.style.cursor = 'pointer';
             card.innerHTML =
                 '<p class="client-card-name">' + c.name + '</p>' +
                 personIcon +
@@ -56,12 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     grid.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-client-btn');
-        if (!btn) return;
-        const index = parseInt(btn.dataset.index);
-        const clients = loadData('mycraft_clients', []);
-        clients.splice(index, 1);
-        saveData('mycraft_clients', clients);
-        showClients();
+        if (btn) {
+            const index = parseInt(btn.dataset.index);
+            const clients = loadData('mycraft_clients', []);
+            clients.splice(index, 1);
+            saveData('mycraft_clients', clients);
+            showClients();
+            return;
+        }
+        const card = e.target.closest('.client-card');
+        if (card) {
+            window.location.href = 'client_detail.html?index=' + card.dataset.index;
+        }
     });
 
     seedExample();

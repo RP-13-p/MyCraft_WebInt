@@ -58,6 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const dueStyle = isOverdue ? 'color:#cc0000;font-weight:bold' : '';
 
             const tr = document.createElement('tr');
+            tr.dataset.index = index;
+            tr.style.cursor = 'pointer';
             tr.innerHTML =
                 '<td data-label="N° Facture">' + inv.number + '</td>' +
                 '<td data-label="Client">' + inv.client + '</td>' +
@@ -113,12 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tbody.addEventListener('click', (e) => {
         const btn = e.target.closest('.delete-invoice-btn');
-        if (!btn) return;
-        const index = parseInt(btn.dataset.index);
-        const invoices = loadData('mycraft_invoices', []);
-        invoices.splice(index, 1);
-        saveData('mycraft_invoices', invoices);
-        showInvoices();
+        if (btn) {
+            const index = parseInt(btn.dataset.index);
+            const invoices = loadData('mycraft_invoices', []);
+            invoices.splice(index, 1);
+            saveData('mycraft_invoices', invoices);
+            showInvoices();
+            return;
+        }
+        if (e.target.closest('.status-select')) return;
+        const tr = e.target.closest('tr');
+        if (tr && tr.dataset.index !== undefined) {
+            window.location.href = 'invoice_detail.html?index=' + tr.dataset.index;
+        }
     });
 
     seedExample();
