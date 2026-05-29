@@ -249,6 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.style.display = '';
     });
 
+    function printQuote() {
+        window.print();
+    }
+
     saveBtn.addEventListener('click', saveQuote);
 
     cancelBtn.addEventListener('click', () => { window.location.href = 'quotes.html'; });

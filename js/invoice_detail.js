@@ -233,6 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.style.display = '';
     });
 
+    function printInvoice() {
+        window.print();
+    }
+
     saveBtn.addEventListener('click', saveInvoice);
 
     cancelBtn.addEventListener('click', () => { window.location.href = 'invoices.html'; });
