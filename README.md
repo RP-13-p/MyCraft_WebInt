@@ -80,6 +80,17 @@ preventing it from stretching the row to hundreds of pixels. Padding, gap and ma
 tightened so both dashboard rows fit on a standard laptop screen without scrolling.
 
 
+### Step 14
+
+Added detail pages for clients, invoices and quotes.
+Clicking a client card navigates to `client_detail.html`, clicking a table row navigates to `invoice_detail.html` or `quote_detail.html`.
+- Each detail page loads the item from localStorage, displays all fields as read-only, and enables editing after clicking "Modifier".
+- Saving overwrites the existing entry in-place instead of pushing a new one.
+The client detail page includes the same Leaflet map and Nominatim geocoding as the creation form.
+Invoice and quote detail pages include the full line items section: existing lines are pre-filled, new ones can be added, and totals recalculate on every change.
+- Line items are now saved in localStorage when creating invoices and quotes (`lines` array), so they can be recovered on the detail page.
+- Fixed a bug where a Leaflet error inside the geocoding `.then()` callback would propagate to `.catch()` and display a misleading network error message.
+
 Next steps :
 
 
