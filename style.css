@@ -217,6 +217,11 @@ footer {
     font-size: 13px;
 }
 
+footer a {
+    color: #1e03cb;
+    text-decoration: underline;
+}
+
 /* Settings */
 .settings-content {
     max-width: 900px;
