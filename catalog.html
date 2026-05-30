@@ -52,7 +52,7 @@
                     </svg>
                     <input type="text" id="catalog-search" placeholder="Rechercher...">
                 </div>
-                <select id="catalog-category-filter" class="category-filter">
+                <select id="catalog-category-filter" class="category-filter" aria-label="Filtrer par catégorie">
                     <option value="">Toutes catégories</option>
                 </select>
             </div>
@@ -61,12 +61,12 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Prestation</th>
-                            <th>Catégorie</th>
-                            <th>Prix HT</th>
-                            <th>TVA</th>
-                            <th>Coût moyen</th>
-                            <th></th>
+                            <th scope="col">Prestation</th>
+                            <th scope="col">Catégorie</th>
+                            <th scope="col">Prix HT</th>
+                            <th scope="col">TVA</th>
+                            <th scope="col">Coût moyen</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody id="catalog-tbody"></tbody>

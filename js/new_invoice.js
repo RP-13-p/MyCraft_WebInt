@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
         line.innerHTML =
             '<select class="line-catalog" aria-label="Catalogue">' + buildCatalogOptions() + '</select>' +
             '<input type="text" class="line-desc" placeholder="Intitulé">' +
-            '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
-            '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
+            '<input type="number" class="line-qty" aria-label="Quantité" value="1" min="0" step="0.5">' +
+            '<input type="number" class="line-price" aria-label="Prix HT (€)" value="0" min="0" step="0.01">' +
             '<select class="line-vat" aria-label="TVA">' +
                 '<option>20%</option>' +
                 '<option>10%</option>' +
