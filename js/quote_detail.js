@@ -68,18 +68,18 @@ document.addEventListener('DOMContentLoaded', () => {
         line.className = 'quote-line';
         line.dataset.avgcost = lineData ? String(lineData.avgCost || 0) : '0';
         line.innerHTML =
-            '<select class="line-catalog"' + (disabled ? ' disabled' : '') + '>' + buildCatalogOptions() + '</select>' +
+            '<select class="line-catalog" aria-label="Catalogue"' + (disabled ? ' disabled' : '') + '>' + buildCatalogOptions() + '</select>' +
             '<input type="text" class="line-desc" placeholder="Intitulé"' + (disabled ? ' disabled' : '') + '>' +
             '<input type="number" class="line-qty" value="1" min="0" step="0.5"' + (disabled ? ' disabled' : '') + '>' +
             '<input type="number" class="line-price" value="0" min="0" step="0.01"' + (disabled ? ' disabled' : '') + '>' +
-            '<select class="line-vat"' + (disabled ? ' disabled' : '') + '>' +
+            '<select class="line-vat" aria-label="TVA"' + (disabled ? ' disabled' : '') + '>' +
                 '<option>20%</option>' +
                 '<option>10%</option>' +
                 '<option>5,5%</option>' +
                 '<option>0%</option>' +
             '</select>' +
             '<span class="line-total">0,00 €</span>' +
-            '<button type="button" class="remove-line-btn" style="' + (disabled ? 'display:none' : '') + '">✕</button>';
+            '<button type="button" class="remove-line-btn" aria-label="Supprimer la ligne" style="' + (disabled ? 'display:none' : '') + '">✕</button>';
         linesContainer.appendChild(line);
 
         if (lineData) {

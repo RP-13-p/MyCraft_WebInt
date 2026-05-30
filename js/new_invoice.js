@@ -42,18 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const line = document.createElement('div');
         line.className = 'quote-line';
         line.innerHTML =
-            '<select class="line-catalog">' + buildCatalogOptions() + '</select>' +
+            '<select class="line-catalog" aria-label="Catalogue">' + buildCatalogOptions() + '</select>' +
             '<input type="text" class="line-desc" placeholder="Intitulé">' +
             '<input type="number" class="line-qty" value="1" min="0" step="0.5">' +
             '<input type="number" class="line-price" value="0" min="0" step="0.01">' +
-            '<select class="line-vat">' +
+            '<select class="line-vat" aria-label="TVA">' +
                 '<option>20%</option>' +
                 '<option>10%</option>' +
                 '<option>5,5%</option>' +
                 '<option>0%</option>' +
             '</select>' +
             '<span class="line-total">0,00 €</span>' +
-            '<button type="button" class="remove-line-btn">✕</button>';
+            '<button type="button" class="remove-line-btn" aria-label="Supprimer la ligne">✕</button>';
         linesContainer.appendChild(line);
     }
 
