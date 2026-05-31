@@ -18,6 +18,11 @@ a {
     color: #000000;
 }
 
+@keyframes fadeInUp {
+  0%   { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* Structure globale */
 .topbar {
     display: flex;
@@ -99,6 +104,7 @@ a {
 .main-content {
     flex: 1;
     padding: 20px 30px;
+    animation: fadeInUp 0.35s ease both;
 }
 
 .grid-row {
@@ -142,6 +148,8 @@ a {
     justify-content: center;
     align-items: center;
     text-align: center;
+    animation: fadeInUp 0.4s ease both;
+    animation-delay: 0.05s;
 }
 
 .card:hover {
@@ -325,6 +333,7 @@ footer a {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    animation: fadeInUp 0.3s ease both;
 }
 
 .page-header h1 {
