@@ -33,8 +33,9 @@
         <main class="main-content dashboard-content">
             
             <!-- Line 1 : Stats -->
-            <section class="grid-row top-stats">
+            <div class="grid-row top-stats">
                 <article class="card circle-card">
+                    <h2 class="sr-only">Date et heure</h2>
                     <p id="dash-date">--/--/----</p>
                     <p id="dash-time">--h--</p>
                 </article>
@@ -50,10 +51,10 @@
                     <h2>Interventions (mois)</h2>
                     <p class="data" id="dash-interventions">0</p>
                 </article>
-            </section>
+            </div>
 
             <!-- Line 2 : Actions et Alerts -->
-            <section class="grid-row bottom-actions">
+            <div class="grid-row bottom-actions">
                 <article class="card action-card">
                     <h2>Nouveau devis</h2>
                     <button id="dashboard-new-quote-btn" class="big-btn" onclick="window.location.href='new_quote.html'">+</button>
@@ -68,8 +69,8 @@
                     <h2>Nouveau client</h2>
                     <button class="big-btn" onclick="window.location.href='new_client.html'">+</button>
                 </article>
-            </section>
-    
+            </div>
+
         </main>
     </div>
     <footer>
