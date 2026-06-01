@@ -1,1 +1,2 @@
 https://www.websitecarbon.com/website/rp-13-p-github-io-mycraft_webint/
+https://validator.w3.org/nu/?doc=https%3A%2F%2Frp-13-p.github.io%2FMyCraft_WebInt%2F 

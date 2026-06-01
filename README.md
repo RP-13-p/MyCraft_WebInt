@@ -2,7 +2,44 @@
 
 Raphael Partouche || Vincent Berardi || Razi Bouallagui
 
+https://rp-13-p.github.io/MyCraft_WebInt/
+
 ----------
+
+## What is MyCraft?
+
+MyCraft is a lightweight web application for self-employed craftsmen — plumbers,
+electricians, carpenters, and similar trades. It covers the full administrative
+cycle of a small business: writing quotes, converting them into invoices, managing
+a client directory, maintaining a service catalogue, and tracking monthly
+performance from a dashboard.
+
+No account, no installation, no server. Everything runs in the browser and
+persists through the localStorage API.
+
+-----------
+
+## Pages
+
+| File | Description |
+|---|---|
+| `index.html` | Dashboard — live clock, monthly KPIs, quick-action buttons |
+| `quotes.html` | Quote list with inline status management |
+| `new_quote.html` | Quote creation form with dynamic line items |
+| `quote_detail.html` | Quote detail and edit page |
+| `invoices.html` | Invoice list with overdue detection |
+| `new_invoice.html` | Invoice creation form |
+| `invoice_detail.html` | Invoice detail and edit page |
+| `clients.html` | Searchable client card grid |
+| `new_client.html` | Client form with Leaflet map and address geocoding |
+| `client_detail.html` | Client detail and edit page |
+| `catalog.html` | Service catalogue with name and category filters |
+| `new_catalog.html` | Catalogue entry creation form |
+| `settings.html` | Company profile settings |
+| `print_preview.html` | Print preview for quotes and invoices |
+
+
+## Details of Advancement 
 
 ### Step 1
 
@@ -100,3 +137,11 @@ Invoice and quote detail pages include the full line items section: existing lin
 - Fixed a bug where a Leaflet error inside the geocoding `.then()` callback would propagate to `.catch()` and display a misleading network error message.
 
 
+---
+
+## External Dependencies
+
+Only two, loaded from CDN on the pages that need a map:
+
+- [Leaflet.js](https://leafletjs.com/) v1.9.4 — map rendering
+- [Nominatim](https://nominatim.openstreetmap.org/) — free geocoding API (no key required)
