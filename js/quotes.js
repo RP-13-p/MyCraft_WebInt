@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             status: 'À payer',
             totalTtc: q.totalTtc,
             totalCost: q.totalCost || 0,
-            profit: q.profit || 0
+            profit: q.profit || 0,
+            lines: q.lines || []
         };
 
         const invoices = loadData('mycraft_invoices', []);
