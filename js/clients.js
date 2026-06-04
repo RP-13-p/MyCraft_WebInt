@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function seedExample() {
         if (localStorage.getItem('mycraft_clients') !== null) return;
         saveData('mycraft_clients', [{
-            name: 'Martin Sophie',
+            name: 'Raphael Troncy',
             type: 'Particulier',
-            email: 'sophie.martin@email.fr',
+            email: 'raphael.troncy@email.fr',
             phone: '+33 6 55 44 33 22',
             address: '8 rue des Lilas, Nice'
         }]);
